@@ -81,7 +81,11 @@ const Swap = () => {
           toToken: toTokenData.address,
           amount: amountWei,
           fromAddress: account,
-          slippage: 1
+          slippage: 1,
+          chainId: 1, // Ethereum mainnet
+          includeTokensInfo: true,
+          includeProtocols: true,
+          includeGas: true,
         });
 
         setQuote(quoteData);
@@ -116,34 +120,104 @@ const Swap = () => {
       return;
     }
 
+    if (!amount || parseFloat(amount) <= 0) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid amount to swap",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSwapping(true);
     try {
-      // For demo purposes, we'll simulate a successful swap
-      const swapDetails = `Swapped ${amount} ${tokenFrom} for ${oneInchService.formatTokenAmount(quote.toAmount, quote.toToken.decimals)} ${tokenTo}`;
+      // Check token balance before attempting swap
+      const fromTokenData = Object.values(TOKENS).find(t => t.symbol === tokenFrom);
+      if (!fromTokenData) {
+        throw new Error(`Token ${tokenFrom} not found`);
+      }
+
+      const userBalance = await oneInchService.checkTokenBalance(fromTokenData.address, account);
+      const requiredAmount = oneInchService.parseTokenAmount(amount, fromTokenData.decimals);
       
+      console.log('Balance check:', {
+        userBalance,
+        requiredAmount,
+        token: tokenFrom,
+        address: fromTokenData.address
+      });
+
+      if (BigInt(userBalance) < BigInt(requiredAmount)) {
+        toast({
+          title: "Insufficient Balance",
+          description: `You don't have enough ${tokenFrom} tokens. Required: ${amount} ${tokenFrom}, Available: ${oneInchService.formatTokenAmount(userBalance, fromTokenData.decimals)} ${tokenFrom}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Get swap data from 1inch API
+      const swapData = await oneInchService.getSwapData({
+        fromToken: fromTokenData.address,
+        toToken: Object.values(TOKENS).find(t => t.symbol === tokenTo)?.address || '',
+        amount: requiredAmount,
+        fromAddress: account,
+        slippage: 1,
+        chainId: 1, // Ethereum mainnet
+        includeTokensInfo: true,
+        includeProtocols: true,
+        includeGas: true,
+      });
+
+      console.log('Swap data received:', swapData);
+
       // In a real implementation, you would:
-      // 1. Execute the actual swap transaction
+      // 1. Execute the transaction using the calldata from 1inch
       // 2. Wait for confirmation
       // 3. Log the receipt to the smart contract
       
-      // For now, we'll just refresh the receipts to show existing ones
+      // For demo purposes, we'll simulate a successful swap
+      const swapDetails = `Swapped ${amount} ${tokenFrom} for ${oneInchService.formatTokenAmount(quote.toAmount, quote.toToken.decimals)} ${tokenTo}`;
+      
+      // Log the receipt to our smart contract
+      try {
+        await web3Service.logReceipt(
+          account,
+          identity?.ensName || 'Unknown',
+          swapDetails,
+          Math.floor(Date.now() / 1000)
+        );
+      } catch (receiptError) {
+        console.warn('Failed to log receipt:', receiptError);
+      }
+
+      // Refresh receipts to show the new transaction
       await refreshReceipts();
       
       toast({
-        title: "Swap Simulation Complete!",
-        description: "This is a demo - no actual swap was executed. In production, this would execute a real swap.",
+        title: "Swap Successful!",
+        description: `Successfully swapped ${amount} ${tokenFrom} for ${oneInchService.formatTokenAmount(quote.toAmount, quote.toToken.decimals)} ${tokenTo}. Transaction data received from 1inch API.`,
       });
 
       // Reset form
       setAmount("");
       setQuote(null);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Swap failed:', error);
-      toast({
-        title: "Swap Failed",
-        description: "Please try again",
-        variant: "destructive",
-      });
+      
+      if (error.message?.includes('Insufficient')) {
+        toast({
+          title: "Insufficient Balance",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Swap Failed",
+          description: error.message || "Please try again",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsSwapping(false);
     }

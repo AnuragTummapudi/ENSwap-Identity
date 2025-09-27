@@ -61,9 +61,19 @@ export const TOKENS = {
   },
 } as const;
 
-// 1inch API endpoints
+// 1inch API endpoints (v6.1 as per official docs)
 export const ONE_INCH_ENDPOINTS = {
-  QUOTE: "https://api.1inch.dev/swap/v6.0/1/quote",
-  SWAP: "https://api.1inch.dev/swap/v6.0/1/swap",
-  TOKENS: "https://api.1inch.dev/swap/v6.0/1/tokens",
+  QUOTE: "https://api.1inch.dev/swap/v6.1",
+  SWAP: "https://api.1inch.dev/swap/v6.1",
+  TOKENS: "https://api.1inch.dev/swap/v6.1",
+} as const;
+
+// Supported chains
+export const SUPPORTED_CHAINS = {
+  ETHEREUM: 1,
+  BSC: 56,
+  POLYGON: 137,
+  ARBITRUM: 42161,
+  OPTIMISM: 10,
+  AVALANCHE: 43114,
 } as const;

@@ -108,41 +108,20 @@ const Sidebar = () => {
         </div>
       )}
 
-      {/* User Info */}
-      {isConnected && !isCollapsed && (
-        <div className="p-4 border-b border-slate-700">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <Wallet className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex-1 min-w-0 overflow-hidden">
-              <p className="text-sm font-medium text-white truncate">
-                {identity ? identity.ensName : "Connected"}
-              </p>
-              <div className="flex items-center space-x-2 mt-1">
-                <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">
-                  Active
-                </Badge>
-                {reputationScore > 0 && (
-                  <Badge variant="outline" className="text-yellow-400 border-yellow-400/30 text-xs">
-                    {reputationScore} pts
-                  </Badge>
-                )}
-              </div>
-            </div>
+      {/* Identity Status (Simplified) */}
+      {isConnected && identity && !isCollapsed && (
+        <div className="p-3 border-b border-slate-700">
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-xs text-green-400 font-medium">
+              {identity.ensName}
+            </span>
+            {reputationScore > 0 && (
+              <Badge variant="outline" className="text-yellow-400 border-yellow-400/30 text-xs">
+                {reputationScore}
+              </Badge>
+            )}
           </div>
-        </div>
-      )}
-
-      {/* Collapsed User Info */}
-      {isConnected && isCollapsed && (
-        <div className="p-2 border-b border-slate-700">
-          <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto">
-            <Wallet className="w-4 h-4 text-white" />
-          </div>
-          {identity && (
-            <div className="w-2 h-2 bg-green-400 rounded-full mx-auto mt-2" />
-          )}
         </div>
       )}
 
@@ -173,23 +152,14 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      {/* Wallet Connection */}
-      <div className="p-4 border-t border-slate-700">
-        {isCollapsed ? (
-          <div className="flex justify-center">
-            <ConnectButton />
+      {/* Footer */}
+      {!isCollapsed && (
+        <div className="p-4 border-t border-slate-700">
+          <div className="text-xs text-slate-500 text-center leading-relaxed">
+            Secure • Decentralized • Trusted
           </div>
-        ) : (
-          <div className="space-y-3">
-            <ConnectButton />
-            {isConnected && (
-              <div className="text-xs text-slate-500 text-center leading-relaxed">
-                Secure • Decentralized • Trusted
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,22 +1,61 @@
-import { ONE_INCH_API_KEY, ONE_INCH_ENDPOINTS, TOKENS } from '@/config/constants';
+import { ONE_INCH_API_KEY, ONE_INCH_ENDPOINTS, TOKENS, SUPPORTED_CHAINS } from '@/config/constants';
 
+// Interfaces based on 1inch API documentation
 export interface SwapQuote {
   fromToken: {
     symbol: string;
     name: string;
     address: string;
     decimals: number;
+    logoURI?: string;
   };
   toToken: {
     symbol: string;
     name: string;
     address: string;
     decimals: number;
+    logoURI?: string;
   };
   toAmount: string;
   fromAmount: string;
   estimatedGas: string;
-  protocols: any[];
+  protocols: any[][];
+  tx?: {
+    from: string;
+    to: string;
+    data: string;
+    value: string;
+    gasPrice: string;
+    gas: string;
+  };
+}
+
+export interface SwapData {
+  fromToken: {
+    symbol: string;
+    name: string;
+    address: string;
+    decimals: number;
+    logoURI?: string;
+  };
+  toToken: {
+    symbol: string;
+    name: string;
+    address: string;
+    decimals: number;
+    logoURI?: string;
+  };
+  toAmount: string;
+  fromAmount: string;
+  tx: {
+    from: string;
+    to: string;
+    data: string;
+    value: string;
+    gasPrice: string;
+    gas: string;
+  };
+  protocols: any[][];
 }
 
 export interface SwapParams {
@@ -24,23 +63,45 @@ export interface SwapParams {
   toToken: string;
   amount: string;
   fromAddress: string;
-  slippage: number;
+  slippage?: number;
+  chainId?: number;
+  protocols?: string;
+  gasPrice?: string;
+  includeTokensInfo?: boolean;
+  includeProtocols?: boolean;
+  includeGas?: boolean;
 }
 
 class OneInchService {
   private apiKey: string;
+  private defaultChainId: number;
 
   constructor() {
     this.apiKey = ONE_INCH_API_KEY;
+    this.defaultChainId = SUPPORTED_CHAINS.ETHEREUM; // Default to Ethereum
   }
 
-  private async makeRequest(url: string, params: Record<string, any> = {}): Promise<any> {
+  /**
+   * Make authenticated request to 1inch API
+   * Following official documentation: https://portal.1inch.dev/documentation/apis/swap/classic-swap/quick-start
+   */
+  private async makeRequest(
+    endpoint: string, 
+    chainId: number, 
+    params: Record<string, any> = {}
+  ): Promise<any> {
     const queryString = new URLSearchParams(params).toString();
+    const url = `${endpoint}/${chainId}?${queryString}`;
     
-    // Try multiple approaches: local proxy, CORS proxy, then direct API
-    const localProxyUrl = `http://localhost:3001/api/quote?${queryString}`;
-    const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url + '?' + queryString)}`;
-    const directUrl = `${url}?${queryString}`;
+    // Try local proxy first, then CORS proxy, then direct API
+    const localProxyUrl = `http://localhost:3001/api${endpoint.includes('quote') ? '/quote' : '/swap'}?chain=${chainId}&${queryString}`;
+    const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    
+    console.log('1inch API Request:', {
+      endpoint: url,
+      params,
+      apiKey: this.apiKey ? 'Present' : 'Missing'
+    });
     
     // Try local proxy first
     try {
@@ -52,7 +113,7 @@ class OneInchService {
       });
 
       if (response.ok) {
-        console.log('✅ Successfully fetched quote via local proxy');
+        console.log('✅ Successfully fetched data via local proxy');
         return response.json();
       }
       
@@ -71,7 +132,7 @@ class OneInchService {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('✅ Successfully fetched quote via CORS proxy');
+          console.log('✅ Successfully fetched data via CORS proxy');
           return data;
         }
         
@@ -81,12 +142,11 @@ class OneInchService {
         
         // Try direct API call
         try {
-          const response = await fetch(directUrl, {
+          const response = await fetch(url, {
             method: 'GET',
             headers: {
               'Accept': 'application/json',
               'Authorization': `Bearer ${this.apiKey}`,
-              'X-API-Key': this.apiKey,
             },
           });
 
@@ -96,7 +156,7 @@ class OneInchService {
             throw new Error(`1inch API error: ${response.status} ${response.statusText} - ${errorText}`);
           }
 
-          console.log('✅ Successfully fetched quote via direct API');
+          console.log('✅ Successfully fetched data via direct API');
           return response.json();
         } catch (directError) {
           console.error('All API methods failed:', directError);
@@ -106,29 +166,40 @@ class OneInchService {
     }
   }
 
+  /**
+   * Get swap quote from 1inch API
+   * Documentation: https://portal.1inch.dev/documentation/apis/swap/classic-swap/quote
+   */
   async getQuote(params: SwapParams): Promise<SwapQuote> {
     try {
-      const { fromToken, toToken, amount, fromAddress, slippage } = params;
+      const {
+        fromToken,
+        toToken,
+        amount,
+        fromAddress,
+        slippage = 1,
+        chainId = this.defaultChainId,
+        includeTokensInfo = true,
+        includeProtocols = true,
+        includeGas = true
+      } = params;
       
-      console.log('1inch API Request:', {
-        endpoint: ONE_INCH_ENDPOINTS.QUOTE,
-        params: {
-          fromTokenAddress: fromToken,
-          toTokenAddress: toToken,
-          amount: amount,
-          fromAddress: fromAddress,
-          slippage: slippage,
-        },
-        apiKey: this.apiKey ? 'Present' : 'Missing'
-      });
-      
-      const result = await this.makeRequest(ONE_INCH_ENDPOINTS.QUOTE, {
+      const quoteParams = {
         fromTokenAddress: fromToken,
         toTokenAddress: toToken,
         amount: amount,
         fromAddress: fromAddress,
         slippage: slippage,
-      });
+        includeTokensInfo: includeTokensInfo,
+        includeProtocols: includeProtocols,
+        includeGas: includeGas
+      };
+
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/quote`,
+        chainId,
+        quoteParams
+      );
 
       return {
         fromToken: {
@@ -136,17 +207,20 @@ class OneInchService {
           name: result.fromToken.name,
           address: result.fromToken.address,
           decimals: result.fromToken.decimals,
+          logoURI: result.fromToken.logoURI,
         },
         toToken: {
           symbol: result.toToken.symbol,
           name: result.toToken.name,
           address: result.toToken.address,
           decimals: result.toToken.decimals,
+          logoURI: result.toToken.logoURI,
         },
         toAmount: result.toAmount,
         fromAmount: result.fromAmount,
         estimatedGas: result.estimatedGas,
-        protocols: result.protocols,
+        protocols: result.protocols || [],
+        tx: result.tx,
       };
     } catch (error) {
       console.error('Failed to get quote from 1inch:', error);
@@ -174,8 +248,8 @@ class OneInchService {
           exchangeRate = 1; // 1 USDT = 1 USDC
         }
         
-        // Apply 0.3% slippage to make it realistic
-        const slippageFactor = 0.997;
+        // Apply slippage to make it realistic
+        const slippageFactor = 1 - (params.slippage || 1) / 100;
         const inputAmount = parseFloat(params.amount) / Math.pow(10, fromTokenData.decimals);
         const outputAmount = inputAmount * exchangeRate * slippageFactor;
         const mockToAmount = (outputAmount * Math.pow(10, toTokenData.decimals)).toString();
@@ -204,28 +278,121 @@ class OneInchService {
     }
   }
 
-  async getSwapData(params: SwapParams): Promise<any> {
+  /**
+   * Get swap transaction data from 1inch API
+   * Documentation: https://portal.1inch.dev/documentation/apis/swap/classic-swap/swap
+   */
+  async getSwapData(params: SwapParams): Promise<SwapData> {
     try {
-      const { fromToken, toToken, amount, fromAddress, slippage } = params;
+      const {
+        fromToken,
+        toToken,
+        amount,
+        fromAddress,
+        slippage = 1,
+        chainId = this.defaultChainId,
+        protocols,
+        gasPrice,
+        includeTokensInfo = true,
+        includeProtocols = true,
+        includeGas = true
+      } = params;
       
-      const result = await this.makeRequest(ONE_INCH_ENDPOINTS.SWAP, {
-        fromTokenAddress: fromToken,
-        toTokenAddress: toToken,
+      const swapParams: Record<string, any> = {
+        src: fromToken,
+        dst: toToken,
         amount: amount,
-        fromAddress: fromAddress,
+        from: fromAddress,
         slippage: slippage,
-      });
+        includeTokensInfo: includeTokensInfo,
+        includeProtocols: includeProtocols,
+        includeGas: includeGas
+      };
 
-      return result;
+      // Add optional parameters
+      if (protocols) swapParams.protocols = protocols;
+      if (gasPrice) swapParams.gasPrice = gasPrice;
+
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.SWAP}/swap`,
+        chainId,
+        swapParams
+      );
+
+      return {
+        fromToken: {
+          symbol: result.fromToken.symbol,
+          name: result.fromToken.name,
+          address: result.fromToken.address,
+          decimals: result.fromToken.decimals,
+          logoURI: result.fromToken.logoURI,
+        },
+        toToken: {
+          symbol: result.toToken.symbol,
+          name: result.toToken.name,
+          address: result.toToken.address,
+          decimals: result.toToken.decimals,
+          logoURI: result.toToken.logoURI,
+        },
+        toAmount: result.toAmount,
+        fromAmount: result.fromAmount,
+        tx: {
+          from: result.tx.from,
+          to: result.tx.to,
+          data: result.tx.data,
+          value: result.tx.value,
+          gasPrice: result.tx.gasPrice,
+          gas: result.tx.gas,
+        },
+        protocols: result.protocols || [],
+      };
     } catch (error) {
       console.error('Failed to get swap data from 1inch:', error);
       throw error;
     }
   }
 
-  async getTokens(): Promise<any[]> {
+  /**
+   * Check token balance for a given address
+   */
+  async checkTokenBalance(tokenAddress: string, walletAddress: string): Promise<string> {
     try {
-      // This would typically be a separate endpoint, but for now we'll use our static tokens
+      // For ETH balance (0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee)
+      if (tokenAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+        // This would require an RPC call to get ETH balance
+        // For demo purposes, return a mock balance
+        return '1000000000000000000'; // 1 ETH in wei
+      }
+      
+      // For ERC20 tokens, this would require calling the balanceOf function
+      // For demo purposes, return mock balances
+      const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
+      
+      if (!token) {
+        return "0";
+      }
+
+      // Mock balances for demo
+      const mockBalances: Record<string, string> = {
+        ETH: "1000000000000000000", // 1 ETH
+        USDC: "500000000", // 500 USDC (6 decimals)
+        USDT: "200000000", // 200 USDT (6 decimals)
+      };
+
+      return mockBalances[token.symbol] || "0";
+    } catch (error) {
+      console.error('Failed to check token balance:', error);
+      return "0";
+    }
+  }
+
+  /**
+   * Get supported tokens for a chain
+   */
+  async getTokens(chainId: number = this.defaultChainId): Promise<any[]> {
+    try {
+      // This would typically call the tokens endpoint
+      // For now, we'll use our static tokens
       return Object.values(TOKENS);
     } catch (error) {
       console.error('Failed to get tokens:', error);
@@ -233,14 +400,14 @@ class OneInchService {
     }
   }
 
+  /**
+   * Get token price (mock implementation)
+   */
   async getTokenPrice(tokenAddress: string): Promise<number> {
     try {
-      // This would be a separate API call to get token prices
-      // For now, we'll return mock prices based on token symbols
       const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
       
       const mockPrices: Record<string, number> = {
-        HBAR: 0.15,
         ETH: 2500,
         USDC: 1,
         USDT: 1,
@@ -253,45 +420,45 @@ class OneInchService {
     }
   }
 
-  async getTokenBalance(tokenAddress: string, walletAddress: string): Promise<string> {
+  /**
+   * Format token amount from wei to human readable
+   */
+  formatTokenAmount(amount: string, decimals: number): string {
     try {
-      // For ETH balance, we would use eth_getBalance
-      // For ERC20 tokens, we would call the balanceOf function
-      // For now, we'll return mock balances
-      const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
-      
-      if (!token) {
-        return "0";
-      }
-
-      // Mock balances for demo
-      const mockBalances: Record<string, string> = {
-        HBAR: "1000",
-        ETH: "1.5",
-        USDC: "500",
-        USDT: "200",
-      };
-
-      const balance = mockBalances[token.symbol] || "0";
-      return (parseFloat(balance) * Math.pow(10, token.decimals)).toString();
+      const num = parseFloat(amount) / Math.pow(10, decimals);
+      return num.toFixed(6);
     } catch (error) {
-      console.error('Failed to get token balance:', error);
-      return "0";
+      console.error('Failed to format token amount:', error);
+      return '0';
     }
   }
 
-  // Helper method to format token amounts
-  formatTokenAmount(amount: string, decimals: number): string {
-    const num = parseFloat(amount) / Math.pow(10, decimals);
-    return num.toFixed(6);
+  /**
+   * Parse token amount from human readable to wei
+   */
+  parseTokenAmount(amount: string, decimals: number): string {
+    try {
+      const num = parseFloat(amount) * Math.pow(10, decimals);
+      return Math.floor(num).toString();
+    } catch (error) {
+      console.error('Failed to parse token amount:', error);
+      return '0';
+    }
   }
 
-  // Helper method to parse token amounts
-  parseTokenAmount(amount: string, decimals: number): string {
-    const num = parseFloat(amount) * Math.pow(10, decimals);
-    return Math.floor(num).toString();
+  /**
+   * Set default chain ID
+   */
+  setDefaultChainId(chainId: number): void {
+    this.defaultChainId = chainId;
+  }
+
+  /**
+   * Get default chain ID
+   */
+  getDefaultChainId(): number {
+    return this.defaultChainId;
   }
 }
 
-// Export singleton instance
 export const oneInchService = new OneInchService();
