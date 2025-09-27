@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Wallet, TrendingUp, Shield, Activity, Eye, EyeOff, Copy, ExternalLink } from "lucide-react";
+import { Wallet, TrendingUp, Shield, Activity, Eye, EyeOff, Copy, ExternalLink, Globe, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { oneInchService } from "@/services/oneInchService";
@@ -212,6 +212,95 @@ const Dashboard = () => {
                   </p>
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Enhanced Features Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5 text-primary" />
+                ENS Features
+              </CardTitle>
+              <CardDescription>Creative ENS integration</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Status</span>
+                  <Badge variant={identity ? "default" : "secondary"}>
+                    {identity ? 'Active' : 'Inactive'}
+                  </Badge>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Transaction-specific ENS names, reputation-based subnames, and creative identity management
+                </div>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => window.location.href = '/ens-features'}
+                >
+                  Explore ENS Features
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-primary" />
+                Hedera Integration
+              </CardTitle>
+              <CardDescription>Hedera network features</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Network</span>
+                  <Badge variant="outline">Hedera Testnet</Badge>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  HTS tokens, native HBAR swapping, and enhanced reputation bonuses
+                </div>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => window.location.href = '/hedera-features'}
+                >
+                  Explore Hedera Features
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                1inch Integration
+              </CardTitle>
+              <CardDescription>Advanced DEX aggregation</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">APIs Used</span>
+                  <Badge variant="outline">7 APIs</Badge>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Quote, Swap, Price Feed, Wallet Balances, Token Metadata, Protocols, Health Check
+                </div>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => window.location.href = '/swap'}
+                >
+                  Try 1inch Swap
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>

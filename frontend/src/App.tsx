@@ -9,6 +9,8 @@ import Landing from "./pages/Landing";
 import Identity from "./pages/Identity";
 import Swap from "./pages/Swap";
 import Dashboard from "./pages/Dashboard";
+import ENSFeatures from "./pages/ENSFeatures";
+import HederaFeatures from "./pages/HederaFeatures";
 import Activity from "./pages/Activity";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -26,6 +28,8 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/identity" element={<Identity />} />
               <Route path="/swap" element={<Swap />} />
+              <Route path="/ens-features" element={<ENSFeatures />} />
+              <Route path="/hedera-features" element={<HederaFeatures />} />
               <Route path="/activity" element={<Activity />} />
               <Route path="/settings" element={<Settings />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

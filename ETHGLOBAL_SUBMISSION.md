@@ -14,9 +14,33 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 - **Smart Contract**: `0xEe58d185f59e01034527d95FDd85236fa245Ea9f` (Hedera Testnet)
 - **GitHub**: https://github.com/AnuragTummapudi/ENSwap-Identity
 
-## 🏆 Hackathon Track
+## 🏆 Partner Prize Alignment
 
-**Track**: Identity & Privacy
+### 🎯 **1inch Integration** - **$1,500 Prize Pool**
+✅ **Comprehensive 1inch API Usage:**
+- **Classic Swap API**: Real-time token swapping with optimal rates
+- **Quote API**: Live pricing and slippage calculations  
+- **Price Feed API**: Real-time token prices
+- **Wallet Balances API**: Live wallet balance checking
+- **Token Metadata API**: Comprehensive token information
+- **Protocols API**: DEX protocol information
+- **Health Check API**: Service status monitoring
+
+### 🎯 **ENS Integration** - **$10,000 Prize Pool**
+✅ **Creative ENS Use Cases:**
+- **Transaction-Specific ENS Names**: Each swap gets unique ENS subname
+- **Reputation-Based Subnames**: High-reputation users can mint subnames
+- **ENS-as-Identity**: ENS names as primary user identifiers
+- **Cross-Platform Identity**: ENS names work across all features
+- **Subname Minting**: Automated subname creation for swaps
+
+### 🎯 **Hedera Integration** - **$3,500 Prize Pool**
+✅ **Advanced Hedera Features:**
+- **Hedera EVM Compatibility**: Smart contracts deployed on Hedera Testnet
+- **HTS System Contracts**: Integration with Hedera Token Service
+- **Native HBAR Support**: Direct HBAR token swapping
+- **Cross-Chain Ready**: Built for Hedera's cross-chain capabilities
+- **Reputation Bonuses**: Extra rewards for Hedera users
 
 ## 🛠️ Technology Stack
 

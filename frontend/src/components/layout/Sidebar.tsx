@@ -14,7 +14,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Wifi,
-  WifiOff
+  WifiOff,
+  Globe,
+  Zap
 } from "lucide-react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useWeb3 } from "@/contexts/Web3Context";
@@ -64,6 +66,8 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/dashboard", icon: BarChart3 },
     { name: "Identity", path: "/identity", icon: User },
     { name: "Swap", path: "/swap", icon: ArrowLeftRight },
+    { name: "ENS Features", path: "/ens-features", icon: Globe },
+    { name: "Hedera Features", path: "/hedera-features", icon: Zap },
     { name: "Activity", path: "/activity", icon: Activity },
     { name: "Settings", path: "/settings", icon: Settings },
   ];

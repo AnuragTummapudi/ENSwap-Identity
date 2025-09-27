@@ -4,6 +4,13 @@ export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS || "0xEe58
 export const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || "aea25227957bdbe6ba50b99b18e6a69c";
 export const ONE_INCH_API_KEY = import.meta.env.VITE_ONE_INCH_API_KEY || "3T7z7yeDMd35XLNZhUrBxBx0qBXm490T";
 
+// Enhanced contract addresses (Mock for development - replace with actual deployed addresses)
+export const CONTRACT_ADDRESSES = {
+  ENSWAP_IDENTITY: import.meta.env.VITE_ENSWAP_IDENTITY_ADDRESS || "0xEe58d185f59e01034527d95FDd85236fa245Ea9f",
+  ENS_SWAP_INTEGRATION: import.meta.env.VITE_ENS_SWAP_INTEGRATION_ADDRESS || "0x1234567890123456789012345678901234567890",
+  HEDERA_ENS_SWAP: import.meta.env.VITE_HEDERA_ENS_SWAP_ADDRESS || "0x2345678901234567890123456789012345678901",
+} as const;
+
 // Network configurations
 export const NETWORKS = {
   HEDERA_TESTNET: {

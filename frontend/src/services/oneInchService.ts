@@ -401,12 +401,28 @@ class OneInchService {
   }
 
   /**
-   * Get token price (mock implementation)
+   * Get token price using 1inch Price Feed API
    */
   async getTokenPrice(tokenAddress: string): Promise<number> {
     try {
-      const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
+      const priceParams = {
+        fromTokenAddress: tokenAddress,
+        toTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // ETH
+        amount: '1000000' // 1 token with 6 decimals
+      };
+
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/price`,
+        this.defaultChainId,
+        priceParams
+      );
+
+      return parseFloat(result.toAmount) / Math.pow(10, 18); // Convert from wei to ETH
+    } catch (error) {
+      console.error('Failed to get token price from 1inch:', error);
       
+      // Fallback to mock prices
+      const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
       const mockPrices: Record<string, number> = {
         ETH: 2500,
         USDC: 1,
@@ -414,9 +430,96 @@ class OneInchService {
       };
 
       return mockPrices[token?.symbol || ''] || 0;
+    }
+  }
+
+  /**
+   * Get wallet balances using 1inch Wallet Balances API
+   */
+  async getWalletBalances(walletAddress: string): Promise<Record<string, string>> {
+    try {
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/wallet/balances`,
+        this.defaultChainId,
+        { address: walletAddress }
+      );
+
+      return result.balances || {};
     } catch (error) {
-      console.error('Failed to get token price:', error);
-      return 0;
+      console.error('Failed to get wallet balances from 1inch:', error);
+      return {};
+    }
+  }
+
+  /**
+   * Get token metadata using 1inch API
+   */
+  async getTokenMetadata(tokenAddress: string): Promise<any> {
+    try {
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/tokens/${tokenAddress}`,
+        this.defaultChainId,
+        {}
+      );
+
+      return result;
+    } catch (error) {
+      console.error('Failed to get token metadata from 1inch:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get supported tokens using 1inch Tokens API
+   */
+  async getSupportedTokens(): Promise<Record<string, any>> {
+    try {
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/tokens`,
+        this.defaultChainId,
+        {}
+      );
+
+      return result.tokens || {};
+    } catch (error) {
+      console.error('Failed to get supported tokens from 1inch:', error);
+      return {};
+    }
+  }
+
+  /**
+   * Get protocols information using 1inch API
+   */
+  async getProtocols(): Promise<any> {
+    try {
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/protocols`,
+        this.defaultChainId,
+        {}
+      );
+
+      return result.protocols || {};
+    } catch (error) {
+      console.error('Failed to get protocols from 1inch:', error);
+      return {};
+    }
+  }
+
+  /**
+   * Get health check from 1inch API
+   */
+  async getHealthCheck(): Promise<boolean> {
+    try {
+      const result = await this.makeRequest(
+        `${ONE_INCH_ENDPOINTS.QUOTE}/healthcheck`,
+        this.defaultChainId,
+        {}
+      );
+
+      return result.status === 'OK';
+    } catch (error) {
+      console.error('Failed to get health check from 1inch:', error);
+      return false;
     }
   }
 

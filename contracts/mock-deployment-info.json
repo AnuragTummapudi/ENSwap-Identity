@@ -1,0 +1,20 @@
+{
+  "network": "hederaTestnet",
+  "timestamp": "2025-09-28T02:00:00.000Z",
+  "deployer": "0xA0BEE4c59d64AC980856F8b10F28f484C8EaC8F5",
+  "contracts": {
+    "ENSwapIdentity": {
+      "address": "0xEe58d185f59e01034527d95FDd85236fa245Ea9f",
+      "description": "Core identity and reputation management"
+    },
+    "ENSSwapIntegration": {
+      "address": "0x1234567890123456789012345678901234567890",
+      "description": "Enhanced ENS integration with creative subname features"
+    },
+    "HederaENSSwap": {
+      "address": "0x2345678901234567890123456789012345678901",
+      "description": "Hedera-specific features with HTS and HBAR support"
+    }
+  },
+  "note": "Mock addresses for development - replace with actual deployed addresses"
+}
