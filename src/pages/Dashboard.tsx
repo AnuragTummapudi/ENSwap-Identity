@@ -57,34 +57,39 @@ const Dashboard = () => {
         const balances: TokenBalance[] = [];
         let totalValue = 0;
 
-        for (const token of Object.values(TOKENS)) {
-          // Get token price from 1inch (or use mock prices)
-          const price = await oneInchService.getTokenPrice(token.address);
-          
-          // For demo purposes, use mock balances
-          const mockBalance = Math.random() * 1000;
-          const value = mockBalance * price;
-          totalValue += value;
+        // For now, show a simple ETH balance since we're on Hedera Testnet
+        // In a real implementation, you would fetch actual HBAR balance
+        try {
+          const ethBalance = parseFloat(balance || "0");
+          const ethPrice = 2500; // Mock ETH price
+          const ethValue = ethBalance * ethPrice;
+          totalValue += ethValue;
 
-          balances.push({
-            symbol: token.symbol,
-            name: token.name,
-            balance: mockBalance.toFixed(6),
-            value: `$${value.toFixed(2)}`,
-            change: `${(Math.random() * 10 - 5).toFixed(1)}%`,
-            network: token.network
-          });
+          if (ethBalance > 0) {
+            balances.push({
+              symbol: "HBAR",
+              name: "Hedera Hashgraph",
+              balance: ethBalance.toFixed(6),
+              value: `$${ethValue.toFixed(2)}`,
+              change: "0.0%",
+              network: "hedera"
+            });
+          }
+        } catch (error) {
+          console.error('Failed to load HBAR balance:', error);
         }
 
         setTokenBalances(balances);
         setTotalBalance(`$${totalValue.toFixed(2)}`);
       } catch (error) {
         console.error('Failed to load token balances:', error);
+        setTokenBalances([]);
+        setTotalBalance("$0.00");
       }
     };
 
     loadTokenBalances();
-  }, [account]);
+  }, [account, balance]);
 
   // Convert receipts to activity items
   useEffect(() => {
@@ -139,93 +144,106 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-12 animate-fade-in">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
-                  Dashboard
-                </h1>
-                <p className="text-lg text-slate-600">
-                  Your Web3 portfolio overview
-                </p>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setBalanceVisible(!balanceVisible)}
-                  className="btn-secondary"
-                >
-                  {balanceVisible ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
-                  {balanceVisible ? "Hide" : "Show"}
-                </Button>
-              </div>
+        {/* Header */}
+        <div className="mb-12 animate-fade-in">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                Dashboard
+              </h1>
+              <p className="text-lg text-slate-600">
+                Your Web3 portfolio overview
+              </p>
             </div>
-
-            {/* Wallet Summary */}
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
-              <CardContent className="p-6">
-                {isConnected && account ? (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                        <Wallet className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Total Portfolio Value</div>
-                        <div className="text-3xl font-bold">
-                          {balanceVisible ? totalBalance : "••••••"}
-                        </div>
-                        <div className="text-sm text-muted-foreground mt-1">
-                          ETH Balance: {balanceVisible ? `${parseFloat(balance).toFixed(4)} ETH` : "••••"}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground mb-1">Wallet Address</div>
-                      <div className="flex items-center gap-2">
-                        <code className="text-sm bg-muted/50 px-2 py-1 rounded">
-                          {`${account.slice(0, 6)}...${account.slice(-4)}`}
-                        </code>
-                        <Button variant="ghost" size="icon" onClick={copyAddress}>
-                          <Copy className="w-4 h-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon">
-                          <ExternalLink className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Wallet className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                    <h3 className="text-lg font-semibold mb-2">No Wallet Connected</h3>
-                    <p className="text-muted-foreground">
-                      Connect your wallet to view your portfolio and transaction history.
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setBalanceVisible(!balanceVisible)}
+                className="btn-secondary"
+              >
+                {balanceVisible ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+                {balanceVisible ? "Hide" : "Show"}
+              </Button>
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Token Balances */}
-            <div className="lg:col-span-2">
-              <Card className="glass-card animate-slide-up">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-primary" />
-                    Token Balances
-                  </CardTitle>
-                  <CardDescription>
-                    Your token holdings across different networks
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {tokenBalances.map((token, index) => (
+          {/* Wallet Summary */}
+          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+            <CardContent className="p-6">
+              {isConnected && account ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                      <Wallet className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground">Total Portfolio Value</div>
+                      <div className="text-3xl font-bold">
+                        {balanceVisible ? totalBalance : "••••••"}
+                      </div>
+                      <div className="text-sm text-muted-foreground mt-1">
+                        ETH Balance: {balanceVisible ? `${parseFloat(balance).toFixed(4)} ETH` : "••••"}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    <div className="text-sm text-muted-foreground mb-1">Wallet Address</div>
+                    <div className="flex items-center gap-2">
+                      <code className="text-sm bg-muted/50 px-2 py-1 rounded">
+                        {`${account.slice(0, 6)}...${account.slice(-4)}`}
+                      </code>
+                      <Button variant="ghost" size="icon" onClick={copyAddress}>
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <ExternalLink className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <Wallet className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+                  <h3 className="text-lg font-semibold mb-2">No Wallet Connected</h3>
+                  <p className="text-muted-foreground">
+                    Connect your wallet to view your portfolio and transaction history.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Token Balances */}
+          <div className="lg:col-span-2">
+            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-primary" />
+                  Token Balances
+                </CardTitle>
+                <CardDescription>
+                  Your token holdings across different networks
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {tokenBalances.length === 0 ? (
+                  <div className="text-center py-8">
+                    <TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+                    <p className="text-sm text-muted-foreground">
+                      {isConnected ? "No token balances found" : "Connect your wallet to view balances"}
+                    </p>
+                    {!isConnected && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Your HBAR balance will appear here after connecting
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  tokenBalances.map((token, index) => (
                     <div 
                       key={token.symbol}
                       className="flex items-center justify-between p-4 bg-white/30 border border-white/20 rounded-lg hover-lift"
@@ -257,97 +275,97 @@ const Dashboard = () => {
                         <div className="text-xs text-muted-foreground mt-1">{token.network}</div>
                       </div>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </div>
 
-            {/* Identity Status & Activity */}
-            <div className="space-y-6">
-              {/* Identity Status */}
-              <Card className="glass-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-primary" />
-                    Identity Status
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {identity ? (
-                    <>
-                      <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-                          <span className="text-sm font-medium">ENS Verified</span>
-                        </div>
-                        <Badge variant="secondary" className="bg-success/20 text-success">
-                          Active
-                        </Badge>
+          {/* Identity Status & Activity */}
+          <div className="space-y-6">
+            {/* Identity Status */}
+            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-primary" />
+                  Identity Status
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {identity ? (
+                  <>
+                    <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+                        <span className="text-sm font-medium">ENS Verified</span>
                       </div>
-                      
-                      <div className="space-y-2">
-                        <div className="text-sm text-muted-foreground">ENS Name</div>
-                        <div className="font-medium text-primary">{identity.ensName}</div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="text-sm text-muted-foreground">DID Identity</div>
-                        <div className="text-xs font-mono bg-muted/50 p-2 rounded break-all">
-                          {identity.did}
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="text-sm text-muted-foreground">Reputation Score</div>
-                        <div className="font-medium text-primary">{reputationScore}</div>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="text-center py-4">
-                      <Shield className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-                      <p className="text-sm text-muted-foreground">
-                        No identity registered yet.
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Create an identity to unlock full features.
-                      </p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Recent Activity */}
-              <Card className="glass-card animate-slide-up" style={{ animationDelay: '0.4s' }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-primary" />
-                    Recent Activity
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {recentActivity.map((activity, index) => (
-                    <div 
-                      key={activity.id}
-                      className="flex items-start gap-3 p-3 bg-white/30 border border-white/20 rounded-lg"
-                    >
-                      <div className="text-xl mt-0.5">{getActivityIcon(activity.type)}</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium">{activity.description}</div>
-                        <div className="text-xs text-muted-foreground">
-                          {activity.timestamp.toLocaleString()}
-                        </div>
-                      </div>
-                      <Badge 
-                        variant="secondary" 
-                        className={activity.status === "completed" ? "bg-success/20 text-success" : "bg-warning/20 text-warning"}
-                      >
-                        {activity.status}
+                      <Badge variant="secondary" className="bg-success/20 text-success">
+                        Active
                       </Badge>
                     </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
+                    
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">ENS Name</div>
+                      <div className="font-medium text-primary">{identity.ensName}</div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">DID Identity</div>
+                      <div className="text-xs font-mono bg-muted/50 p-2 rounded break-all">
+                        {identity.did}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="text-sm text-muted-foreground">Reputation Score</div>
+                      <div className="font-medium text-primary">{reputationScore}</div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-4">
+                    <Shield className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
+                    <p className="text-sm text-muted-foreground">
+                      No identity registered yet.
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Create an identity to unlock full features.
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-primary" />
+                  Recent Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {recentActivity.map((activity, index) => (
+                  <div 
+                    key={activity.id}
+                    className="flex items-start gap-3 p-3 bg-white/30 border border-white/20 rounded-lg"
+                  >
+                    <div className="text-xl mt-0.5">{getActivityIcon(activity.type)}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium">{activity.description}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {activity.timestamp.toLocaleString()}
+                      </div>
+                    </div>
+                    <Badge 
+                      variant="secondary" 
+                      className={activity.status === "completed" ? "bg-success/20 text-success" : "bg-warning/20 text-warning"}
+                    >
+                      {activity.status}
+                    </Badge>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
@@ -355,4 +373,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard;   

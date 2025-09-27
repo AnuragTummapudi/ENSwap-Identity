@@ -94,6 +94,11 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
     try {
       setIsCreatingIdentity(true);
       await web3Service.createIdentity(ensName, did);
+      
+      // Wait a bit for the transaction to be confirmed
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Refresh identity data
       await refreshIdentity();
       
       toast({
@@ -114,7 +119,11 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const refreshIdentity = async () => {
-    if (!isConnected || !address) return;
+    if (!isConnected || !address) {
+      setIdentity(null);
+      setReputationScore(0);
+      return;
+    }
     
     try {
       const [identityData, score] = await Promise.all([
@@ -122,10 +131,13 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
         web3Service.getReputationScore(),
       ]);
       
+      console.log('Refreshed identity data:', identityData);
       setIdentity(identityData);
-      setReputationScore(score);
+      setReputationScore(score || 0);
     } catch (error) {
       console.error('Failed to refresh identity:', error);
+      setIdentity(null);
+      setReputationScore(0);
     }
   };
 

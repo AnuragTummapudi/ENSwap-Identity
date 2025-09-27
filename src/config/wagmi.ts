@@ -1,14 +1,6 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { mainnet, polygon, optimism, arbitrum, base, sepolia } from 'wagmi/chains';
 
-// Get projectId from https://cloud.walletconnect.com
-export const config = getDefaultConfig({
-  appName: 'ENSwap Identity',
-  projectId: 'aea25227957bdbe6ba50b99b18e6a69c',
-  chains: [mainnet, polygon, optimism, arbitrum, base, sepolia],
-  ssr: false, // If your dApp uses server side rendering (SSR)
-});
-
 // Custom Hedera configuration
 export const hederaTestnet = {
   id: 296,
@@ -23,3 +15,11 @@ export const hederaTestnet = {
   },
   testnet: true,
 } as const;
+
+// Get projectId from https://cloud.walletconnect.com
+export const config = getDefaultConfig({
+  appName: 'ENSwap Identity',
+  projectId: 'aea25227957bdbe6ba50b99b18e6a69c',
+  chains: [hederaTestnet, sepolia, mainnet, polygon, optimism, arbitrum, base], // Hedera Testnet first
+  ssr: false, // If your dApp uses server side rendering (SSR)
+});

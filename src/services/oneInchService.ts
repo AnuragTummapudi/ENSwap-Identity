@@ -36,23 +36,74 @@ class OneInchService {
 
   private async makeRequest(url: string, params: Record<string, any> = {}): Promise<any> {
     const queryString = new URLSearchParams(params).toString();
+    
+    // Try multiple approaches: local proxy, CORS proxy, then direct API
+    const localProxyUrl = `http://localhost:3001/api/quote?${queryString}`;
+    const corsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url + '?' + queryString)}`;
+    const directUrl = `${url}?${queryString}`;
+    
+    // Try local proxy first
+    try {
+      const response = await fetch(localProxyUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
 
-    const response = await fetch(`${url}?${queryString}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
-        'X-API-Key': this.apiKey,
-      },
-    });
+      if (response.ok) {
+        console.log('✅ Successfully fetched quote via local proxy');
+        return response.json();
+      }
+      
+      throw new Error(`Local proxy error: ${response.status}`);
+    } catch (localProxyError) {
+      console.warn('Local proxy failed, trying CORS proxy:', localProxyError);
+      
+      // Try CORS proxy
+      try {
+        const response = await fetch(corsProxyUrl, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('1inch API Error:', errorText);
-      throw new Error(`1inch API error: ${response.status} ${response.statusText} - ${errorText}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('✅ Successfully fetched quote via CORS proxy');
+          return data;
+        }
+        
+        throw new Error(`CORS proxy error: ${response.status}`);
+      } catch (corsProxyError) {
+        console.warn('CORS proxy failed, trying direct API:', corsProxyError);
+        
+        // Try direct API call
+        try {
+          const response = await fetch(directUrl, {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${this.apiKey}`,
+              'X-API-Key': this.apiKey,
+            },
+          });
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('1inch API Error:', errorText);
+            throw new Error(`1inch API error: ${response.status} ${response.statusText} - ${errorText}`);
+          }
+
+          console.log('✅ Successfully fetched quote via direct API');
+          return response.json();
+        } catch (directError) {
+          console.error('All API methods failed:', directError);
+          throw directError;
+        }
+      }
     }
-
-    return response.json();
   }
 
   async getQuote(params: SwapParams): Promise<SwapQuote> {
@@ -100,13 +151,34 @@ class OneInchService {
     } catch (error) {
       console.error('Failed to get quote from 1inch:', error);
       
-      // Return a mock quote for testing when API fails
+      // Return a realistic mock quote when API fails
       const fromTokenData = Object.values(TOKENS).find(t => t.address === params.fromToken);
       const toTokenData = Object.values(TOKENS).find(t => t.address === params.toToken);
       
       if (fromTokenData && toTokenData) {
-        console.warn('Using mock quote due to API failure');
-        const mockToAmount = (parseFloat(params.amount) * 0.95 * Math.pow(10, toTokenData.decimals)).toString();
+        console.warn('⚠️ API failed, using realistic mock quote for demo');
+        
+        // Calculate realistic exchange rates
+        let exchangeRate = 1;
+        if (fromTokenData.symbol === 'ETH' && toTokenData.symbol === 'USDC') {
+          exchangeRate = 2500; // 1 ETH = 2500 USDC
+        } else if (fromTokenData.symbol === 'USDC' && toTokenData.symbol === 'ETH') {
+          exchangeRate = 1/2500; // 1 USDC = 0.0004 ETH
+        } else if (fromTokenData.symbol === 'ETH' && toTokenData.symbol === 'USDT') {
+          exchangeRate = 2500; // 1 ETH = 2500 USDT
+        } else if (fromTokenData.symbol === 'USDT' && toTokenData.symbol === 'ETH') {
+          exchangeRate = 1/2500; // 1 USDT = 0.0004 ETH
+        } else if (fromTokenData.symbol === 'USDC' && toTokenData.symbol === 'USDT') {
+          exchangeRate = 1; // 1 USDC = 1 USDT
+        } else if (fromTokenData.symbol === 'USDT' && toTokenData.symbol === 'USDC') {
+          exchangeRate = 1; // 1 USDT = 1 USDC
+        }
+        
+        // Apply 0.3% slippage to make it realistic
+        const slippageFactor = 0.997;
+        const inputAmount = parseFloat(params.amount) / Math.pow(10, fromTokenData.decimals);
+        const outputAmount = inputAmount * exchangeRate * slippageFactor;
+        const mockToAmount = (outputAmount * Math.pow(10, toTokenData.decimals)).toString();
         
         return {
           fromToken: {
@@ -124,7 +196,7 @@ class OneInchService {
           toAmount: mockToAmount,
           fromAmount: params.amount,
           estimatedGas: '21000',
-          protocols: [],
+          protocols: [['UNISWAP_V3', 'SUSHISWAP']], // Mock protocol path
         };
       }
       
@@ -178,6 +250,33 @@ class OneInchService {
     } catch (error) {
       console.error('Failed to get token price:', error);
       return 0;
+    }
+  }
+
+  async getTokenBalance(tokenAddress: string, walletAddress: string): Promise<string> {
+    try {
+      // For ETH balance, we would use eth_getBalance
+      // For ERC20 tokens, we would call the balanceOf function
+      // For now, we'll return mock balances
+      const token = Object.values(TOKENS).find(t => t.address === tokenAddress);
+      
+      if (!token) {
+        return "0";
+      }
+
+      // Mock balances for demo
+      const mockBalances: Record<string, string> = {
+        HBAR: "1000",
+        ETH: "1.5",
+        USDC: "500",
+        USDT: "200",
+      };
+
+      const balance = mockBalances[token.symbol] || "0";
+      return (parseFloat(balance) * Math.pow(10, token.decimals)).toString();
+    } catch (error) {
+      console.error('Failed to get token balance:', error);
+      return "0";
     }
   }
 

@@ -1,6 +1,13 @@
 import { ethers } from 'ethers';
 import { getPublicClient, getWalletClient } from '@wagmi/core';
-import { CONTRACT_ADDRESS, NETWORKS } from '@/config/constants';
+import { CONTRACT_ADDRESS, NETWORKS, DEFAULT_NETWORK } from '@/config/constants';
+
+// Extend window interface for ethereum
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 // Contract ABI for ENSwapIdentity
 const CONTRACT_ABI = [
@@ -58,23 +65,82 @@ class Web3Service {
 
   async getAccount(): Promise<string | null> {
     try {
-      const walletClient = await getWalletClient();
-      if (!walletClient) return null;
-      return walletClient.account.address;
+      if (!window.ethereum) {
+        return null;
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      return await signer.getAddress();
     } catch (error) {
       console.error('Failed to get account:', error);
       return null;
     }
   }
 
-  async createIdentity(ensName: string, did: string): Promise<void> {
+  async switchToHederaTestnet(): Promise<void> {
+    if (!window.ethereum) {
+      throw new Error('No wallet detected. Please install MetaMask or another Web3 wallet.');
+    }
+
     try {
-      const walletClient = await getWalletClient();
-      if (!walletClient) {
-        throw new Error('Wallet not connected');
+      // Check if we're already on Hedera Testnet
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const hederaChainId = `0x${DEFAULT_NETWORK.chainId.toString(16)}`;
+      
+      if (chainId === hederaChainId) {
+        console.log('Already on Hedera Testnet');
+        return;
       }
 
-      const provider = new ethers.BrowserProvider(walletClient);
+      // Try to switch to Hedera Testnet
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: hederaChainId }],
+      });
+    } catch (switchError: any) {
+      // If the chain doesn't exist, add it
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: `0x${DEFAULT_NETWORK.chainId.toString(16)}`,
+              chainName: DEFAULT_NETWORK.name,
+              rpcUrls: [DEFAULT_NETWORK.rpcUrl],
+              nativeCurrency: {
+                name: 'HBAR',
+                symbol: 'HBAR',
+                decimals: 18,
+              },
+              blockExplorerUrls: [DEFAULT_NETWORK.blockExplorer],
+            }],
+          });
+        } catch (addError) {
+          console.error('Failed to add Hedera Testnet:', addError);
+          throw new Error('Please manually add Hedera Testnet to your wallet');
+        }
+      } else {
+        console.error('Failed to switch to Hedera Testnet:', switchError);
+        throw new Error('Please switch to Hedera Testnet manually in your wallet');
+      }
+    }
+  }
+
+  async createIdentity(ensName: string, did: string): Promise<void> {
+    try {
+      // Check if we have a connected wallet
+      if (!window.ethereum) {
+        throw new Error('No wallet detected. Please install MetaMask or another Web3 wallet.');
+      }
+
+      // Request account access if needed
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      
+      // Switch to Hedera Testnet
+      await this.switchToHederaTestnet();
+      
+      const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       
       const contract = new ethers.Contract(
@@ -83,8 +149,14 @@ class Web3Service {
         signer
       );
 
+      console.log('Creating identity with:', { ensName, did, contractAddress: CONTRACT_ADDRESS });
+      
       const tx = await contract.createIdentity(ensName, did);
-      await tx.wait();
+      console.log('Transaction sent:', tx.hash);
+      
+      const receipt = await tx.wait();
+      console.log('Transaction confirmed:', receipt);
+      
     } catch (error) {
       console.error('Failed to create identity:', error);
       throw error;
@@ -92,15 +164,22 @@ class Web3Service {
   }
 
   async getIdentity(userAddress?: string): Promise<UserIdentity | null> {
-    if (!this.contract) {
-      throw new Error('Wallet not connected');
-    }
-
     try {
+      if (!window.ethereum) {
+        throw new Error('No wallet detected');
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        provider
+      );
+
       const address = userAddress || await this.getAccount();
       if (!address) return null;
 
-      const identity = await this.contract.getIdentity(address);
+      const identity = await contract.getIdentity(address);
       
       // Check if identity exists (empty ensName means no identity)
       if (!identity.ensName || identity.ensName === '') {
@@ -134,15 +213,22 @@ class Web3Service {
   }
 
   async getReceipts(userAddress?: string): Promise<Receipt[]> {
-    if (!this.contract) {
-      throw new Error('Wallet not connected');
-    }
-
     try {
+      if (!window.ethereum) {
+        throw new Error('No wallet detected');
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        provider
+      );
+
       const address = userAddress || await this.getAccount();
       if (!address) return [];
 
-      const receipts = await this.contract.getReceipts(address);
+      const receipts = await contract.getReceipts(address);
       
       return receipts.map((receipt: any) => ({
         ensName: receipt.ensName,
@@ -157,16 +243,23 @@ class Web3Service {
   }
 
   async getReputationScore(userAddress?: string): Promise<number> {
-    if (!this.contract) {
-      throw new Error('Wallet not connected');
-    }
-
     try {
+      if (!window.ethereum) {
+        throw new Error('No wallet detected');
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        provider
+      );
+
       const address = userAddress || await this.getAccount();
       if (!address) return 0;
 
-      const score = await this.contract.getReputationScore(address);
-      return Number(score);
+      const score = await contract.getReputationScore(address);
+      return Number(score) || 0;
     } catch (error) {
       console.error('Failed to get reputation score:', error);
       return 0;

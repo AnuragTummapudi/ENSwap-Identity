@@ -12,6 +12,12 @@ export const NETWORKS = {
     rpcUrl: "https://testnet.hashio.io/api",
     blockExplorer: "https://hashscan.io/testnet",
   },
+  SEPOLIA: {
+    chainId: 11155111,
+    name: "Sepolia Testnet",
+    rpcUrl: "https://sepolia.infura.io/v3/",
+    blockExplorer: "https://sepolia.etherscan.io",
+  },
   ETHEREUM: {
     chainId: 1,
     name: "Ethereum Mainnet",
@@ -19,6 +25,9 @@ export const NETWORKS = {
     blockExplorer: "https://etherscan.io",
   },
 } as const;
+
+// Default network for testing
+export const DEFAULT_NETWORK = NETWORKS.HEDERA_TESTNET;
 
 // Token configurations
 export const TOKENS = {
