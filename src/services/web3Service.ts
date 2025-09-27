@@ -68,12 +68,22 @@ class Web3Service {
   }
 
   async createIdentity(ensName: string, did: string): Promise<void> {
-    if (!this.contract) {
-      throw new Error('Wallet not connected');
-    }
-
     try {
-      const tx = await this.contract.createIdentity(ensName, did);
+      const walletClient = await getWalletClient();
+      if (!walletClient) {
+        throw new Error('Wallet not connected');
+      }
+
+      const provider = new ethers.BrowserProvider(walletClient);
+      const signer = await provider.getSigner();
+      
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        signer
+      );
+
+      const tx = await contract.createIdentity(ensName, did);
       await tx.wait();
     } catch (error) {
       console.error('Failed to create identity:', error);

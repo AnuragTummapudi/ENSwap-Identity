@@ -30,13 +30,7 @@ const Landing = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section 
-        className="relative py-20 md:py-32 hero-gradient overflow-hidden"
-        style={{
-          backgroundImage: `url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundBlendMode: 'overlay'
-        }}
+        className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-background/80" />
         
@@ -51,11 +45,11 @@ const Landing = () => {
               </div>
               
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                <span className="gradient-text">Seamless Identity</span>
+                <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Seamless Identity</span>
                 <br />
-                <span className="text-foreground">+ Token Swaps on</span>
+                <span className="text-slate-600">+ Token Swaps on</span>
                 <br />
-                <span className="text-primary">Hedera & Beyond</span>
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Hedera & Beyond</span>
               </h1>
               
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
@@ -99,7 +93,7 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-slide-up">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="gradient-text">Powerful Features</span>
+              <span className="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Powerful Features</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Everything you need for modern Web3 identity and token management
@@ -123,9 +117,9 @@ const Landing = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary/5 via-accent/5 to-secondary/5">
         <div className="container mx-auto px-4 text-center">
-          <div className="glass-card p-12 rounded-3xl max-w-4xl mx-auto animate-fade-in">
+          <div className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl p-12 rounded-3xl max-w-4xl mx-auto animate-fade-in">
             <h3 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to <span className="gradient-text">Transform</span> Your Web3 Experience?
+              Ready to <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Transform</span> Your Web3 Experience?
             </h3>
             <p className="text-xl text-muted-foreground mb-8">
               Join the future of decentralized identity and seamless token swapping.

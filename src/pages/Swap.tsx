@@ -241,16 +241,15 @@ const Swap = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-background to-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen">
+      <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12 animate-fade-in">
             <div className="flex items-center justify-center mb-6">
               <ArrowLeftRight className="w-12 h-12 text-primary animate-float" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="gradient-text">Token Swap</span>
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              Token Swap
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Secure, identity-verified token swaps across multiple networks
@@ -260,7 +259,7 @@ const Swap = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Swap Interface */}
             <div className="lg:col-span-2">
-              <Card className="glass-card animate-slide-up">
+              <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Zap className="w-5 h-5 text-primary" />
@@ -402,7 +401,7 @@ const Swap = () => {
 
             {/* Swap History */}
             <div className="lg:col-span-1">
-              <Card className="glass-card animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 <CardHeader>
                   <CardTitle className="text-lg">Recent Swaps</CardTitle>
                   <CardDescription>

@@ -137,17 +137,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 bg-gradient-to-b from-background to-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-12 animate-fade-in">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                  <span className="gradient-text">Dashboard</span>
+                <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                  Dashboard
                 </h1>
-                <p className="text-xl text-muted-foreground">
+                <p className="text-lg text-slate-600">
                   Your Web3 portfolio overview
                 </p>
               </div>
@@ -165,7 +164,7 @@ const Dashboard = () => {
             </div>
 
             {/* Wallet Summary */}
-            <Card className="glass-card">
+            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
               <CardContent className="p-6">
                 {isConnected && account ? (
                   <div className="flex items-center justify-between">

@@ -9,6 +9,8 @@ import Landing from "./pages/Landing";
 import Identity from "./pages/Identity";
 import Swap from "./pages/Swap";
 import Dashboard from "./pages/Dashboard";
+import Activity from "./pages/Activity";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const App = () => (
@@ -21,9 +23,11 @@ const App = () => (
           <Layout>
             <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/identity" element={<Identity />} />
               <Route path="/swap" element={<Swap />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/activity" element={<Activity />} />
+              <Route path="/settings" element={<Settings />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

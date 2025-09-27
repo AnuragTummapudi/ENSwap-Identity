@@ -62,8 +62,10 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   const connectWallet = async () => {
     try {
       setIsLoading(true);
-      // RainbowKit will handle the connection UI
-      // We don't need to call anything here as RainbowKit manages the connection
+      // Since we're using RainbowKit's ConnectButton, we don't need to manually trigger connect
+      // The connection is handled by RainbowKit's modal
+      // This function is kept for compatibility but the actual connection happens via ConnectButton
+      console.log('Connect wallet called - RainbowKit handles the connection UI');
     } catch (error: any) {
       console.error('Failed to connect wallet:', error);
       toast({
@@ -112,7 +114,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const refreshIdentity = async () => {
-    if (!isConnected || !account) return;
+    if (!isConnected || !address) return;
     
     try {
       const [identityData, score] = await Promise.all([
@@ -128,7 +130,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const refreshReceipts = async () => {
-    if (!isConnected || !account) return;
+    if (!isConnected || !address) return;
     
     try {
       const receiptsData = await web3Service.getReceipts();
