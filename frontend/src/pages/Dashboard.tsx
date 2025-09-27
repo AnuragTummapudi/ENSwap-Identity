@@ -142,16 +142,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black text-white grid-bg">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-12 animate-fade-in">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold mb-2 font-futuristic text-white-glow">
                 Dashboard
               </h1>
-              <p className="text-lg text-slate-600">
+              <p className="text-lg text-white/70 font-mono-space">
                 Your Web3 portfolio overview
               </p>
             </div>
@@ -218,13 +218,13 @@ const Dashboard = () => {
 
         {/* Enhanced Features Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+          <Card className="glass-card terminal-border hover-lift animate-slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Globe className="h-5 w-5 text-primary" />
+                <Globe className="h-5 w-5 text-cyan-400" />
                 ENS Features
               </CardTitle>
-              <CardDescription>Creative ENS integration</CardDescription>
+              <CardDescription className="text-white/60 font-code">Creative ENS integration</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -248,7 +248,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Zap className="h-5 w-5 text-primary" />
@@ -276,7 +276,7 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-primary" />
@@ -288,14 +288,14 @@ const Dashboard = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">APIs Used</span>
-                  <Badge variant="outline">7 APIs</Badge>
+                  <Badge variant="outline" className="bg-blue-500/20 text-blue-400 border-blue-400/50">7 APIs</Badge>
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-white/70 font-mono-space">
                   Quote, Swap, Price Feed, Wallet Balances, Token Metadata, Protocols, Health Check
                 </div>
                 <Button 
                   size="sm" 
-                  className="w-full"
+                  className="w-full btn-accent font-futuristic"
                   onClick={() => window.location.href = '/swap'}
                 >
                   Try 1inch Swap
@@ -308,7 +308,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Token Balances */}
           <div className="lg:col-span-2">
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+            <Card className="glass-card terminal-border hover-lift animate-slide-up">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-primary" />
@@ -373,7 +373,7 @@ const Dashboard = () => {
           {/* Identity Status & Activity */}
           <div className="space-y-6">
             {/* Identity Status */}
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Shield className="w-5 h-5 text-primary" />

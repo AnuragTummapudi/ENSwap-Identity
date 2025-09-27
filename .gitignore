@@ -164,3 +164,6 @@ test-api.js
 
 # Bun
 bun.lockb
+
+ENVIRONMENT_SETUP.md
+DEMO_VIDEO_SCRIPT.md

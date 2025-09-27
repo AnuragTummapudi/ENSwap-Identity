@@ -1,126 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ENSwap Identity Design System - Light, classy, Web3 aesthetic */
+/* ENSwap Identity Design System - Futuristic Black/White Web3 aesthetic */
 
 @layer base {
   :root {
-    /* Light theme with soft pastels */
-    --background: 220 50% 98%;
-    --foreground: 220 20% 15%;
+    /* Futuristic Black/White Theme */
+    --background: 0 0% 0%;           /* Pure black */
+    --foreground: 0 0% 100%;         /* Pure white */
 
     /* Cards with subtle glass-morphism */
-    --card: 220 100% 99%;
-    --card-foreground: 220 20% 15%;
+    --card: 0 0% 5%;                 /* Very dark gray */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 100% 99%;
-    --popover-foreground: 220 20% 15%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Primary: Soft blue palette */
-    --primary: 200 100% 60%;
-    --primary-foreground: 220 100% 99%;
-    --primary-glow: 200 100% 80%;
+    /* Primary: Bright white with neon glow */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 0%;
+    --primary-glow: 0 0% 100%;
 
-    /* Secondary: Lavender accents */
-    --secondary: 270 50% 95%;
-    --secondary-foreground: 270 20% 25%;
+    /* Secondary: Dark gray */
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Muted: Soft neutral tones */
-    --muted: 220 30% 96%;
-    --muted-foreground: 220 15% 45%;
+    /* Muted: Dark gray tones */
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
 
-    /* Accent: Mint green highlights */
-    --accent: 150 60% 92%;
-    --accent-foreground: 150 30% 25%;
+    /* Accent: Bright cyan for highlights */
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 0%;
 
-    /* Success: Mint green */
-    --success: 150 60% 50%;
-    --success-foreground: 150 100% 98%;
+    /* Success: Bright green */
+    --success: 120 100% 50%;
+    --success-foreground: 0 0% 0%;
 
-    /* Warning: Soft amber */
-    --warning: 45 90% 70%;
-    --warning-foreground: 45 30% 20%;
+    /* Warning: Bright yellow */
+    --warning: 60 100% 50%;
+    --warning-foreground: 0 0% 0%;
 
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 100% 98%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Borders and inputs with soft edges */
-    --border: 220 30% 88%;
-    --input: 220 30% 92%;
-    --ring: 200 100% 60%;
+    /* Borders and inputs */
+    --border: 0 0% 20%;
+    --input: 0 0% 8%;
+    --ring: 180 100% 50%;
 
     /* Glass-morphism effects */
-    --glass-bg: 220 100% 99% / 0.8;
-    --glass-border: 220 30% 88% / 0.3;
+    --glass-bg: 0 0% 5% / 0.9;
+    --glass-border: 0 0% 20% / 0.3;
 
-    /* Beautiful gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(200 100% 80%), hsl(220 70% 85%));
-    --gradient-secondary: linear-gradient(135deg, hsl(270 60% 90%), hsl(200 60% 90%));
-    --gradient-accent: linear-gradient(135deg, hsl(150 60% 85%), hsl(180 60% 85%));
-    --gradient-hero: linear-gradient(135deg, hsl(220 50% 98%), hsl(200 80% 95%), hsl(270 50% 95%));
-    
-    /* Shadows for depth */
-    --shadow-soft: 0 4px 20px hsl(220 30% 50% / 0.08);
-    --shadow-medium: 0 8px 30px hsl(220 30% 50% / 0.12);
-    --shadow-large: 0 20px 40px hsl(220 30% 50% / 0.15);
-    --shadow-glow: 0 0 30px hsl(200 100% 70% / 0.3);
+    /* Futuristic shadows */
+    --shadow-soft: 0 4px 20px rgba(0, 255, 255, 0.1);
+    --shadow-medium: 0 8px 30px rgba(0, 255, 255, 0.15);
+    --shadow-large: 0 20px 40px rgba(0, 255, 255, 0.2);
+    --shadow-glow: 0 0 30px rgba(0, 255, 255, 0.5);
+    --shadow-white: 0 0 20px rgba(255, 255, 255, 0.3);
 
-    --radius: 1rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Dark theme */
+    --sidebar-background: 0 0% 3%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 8%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 180 100% 50%;
   }
 }
 
@@ -130,20 +83,51 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-black text-white font-mono;
+    font-family: 'JetBrains Mono', 'Space Grotesk', monospace;
+    background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+    min-height: 100vh;
+  }
+
+  /* Futuristic font classes */
+  .font-futuristic {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .font-mono-space {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+  }
+
+  .font-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
   }
 }
 
 @layer components {
-  /* Glass-morphism card effect */
+  /* Futuristic card effect */
   .glass-card {
-    @apply bg-white/80 backdrop-blur-sm border border-white/30;
+    @apply bg-black/90 backdrop-blur-sm border border-white/20;
     box-shadow: var(--shadow-soft);
+    background: linear-gradient(145deg, rgba(0,0,0,0.9) 0%, rgba(10,10,10,0.9) 100%);
   }
 
-  /* Hero gradient background */
-  .hero-gradient {
-    background: var(--gradient-hero);
+  /* Neon glow effects */
+  .neon-glow {
+    box-shadow: 
+      0 0 5px rgba(0, 255, 255, 0.5),
+      0 0 10px rgba(0, 255, 255, 0.3),
+      0 0 15px rgba(0, 255, 255, 0.2);
+  }
+
+  .neon-white {
+    box-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.5),
+      0 0 10px rgba(255, 255, 255, 0.3),
+      0 0 15px rgba(255, 255, 255, 0.2);
   }
 
   /* Smooth transitions for all interactive elements */
@@ -151,41 +135,196 @@
     @apply transition-all duration-300 ease-out;
   }
 
-  /* Hover lift effect */
+  /* Hover lift effect with neon */
   .hover-lift {
-    @apply transition-smooth hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-smooth hover:-translate-y-1;
+    box-shadow: var(--shadow-medium);
   }
 
-  /* Button variants using design system */
+  .hover-lift:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Button variants using futuristic design */
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-smooth;
-    box-shadow: var(--shadow-soft);
+    @apply bg-white text-black hover:bg-white/90 transition-smooth font-futuristic;
+    box-shadow: var(--shadow-white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-smooth;
+    @apply bg-black text-white hover:bg-gray-900 transition-smooth font-mono-space border border-white/20;
+    box-shadow: var(--shadow-soft);
   }
 
   .btn-accent {
-    @apply bg-accent text-accent-foreground hover:bg-accent/80 transition-smooth;
+    @apply bg-cyan-500 text-black hover:bg-cyan-400 transition-smooth font-futuristic;
+    box-shadow: var(--shadow-glow);
   }
 
   .btn-glow {
-    @apply bg-primary text-primary-foreground transition-smooth;
-    box-shadow: var(--shadow-glow);
+    @apply bg-white text-black transition-smooth font-futuristic;
+    box-shadow: var(--shadow-white);
+    animation: pulse-glow 2s infinite;
   }
 
   /* Input styles */
   .input-glass {
-    @apply bg-white/60 backdrop-blur-sm border border-white/30 transition-smooth;
-    @apply focus:border-primary focus:ring-2 focus:ring-primary/20;
+    @apply bg-black/60 backdrop-blur-sm border border-white/20 transition-smooth font-code;
+    @apply focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20;
+    background: linear-gradient(145deg, rgba(0,0,0,0.8) 0%, rgba(10,10,10,0.8) 100%);
   }
 
-  /* Gradient text effect */
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(200 100% 50%), hsl(270 60% 60%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Futuristic text effects */
+  .text-glow {
+    text-shadow: 
+      0 0 5px rgba(0, 255, 255, 0.5),
+      0 0 10px rgba(0, 255, 255, 0.3),
+      0 0 15px rgba(0, 255, 255, 0.2);
   }
+
+  .text-white-glow {
+    text-shadow: 
+      0 0 5px rgba(255, 255, 255, 0.5),
+      0 0 10px rgba(255, 255, 255, 0.3),
+      0 0 15px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Grid pattern background */
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Scanline effect */
+  .scanlines {
+    position: relative;
+  }
+
+  .scanlines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      transparent 50%,
+      rgba(0, 255, 255, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scanlines 0.1s linear infinite;
+  }
+
+  /* Terminal-style borders */
+  .terminal-border {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+  }
+
+  .terminal-border::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, 
+      rgba(0, 255, 255, 0.5) 0%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0, 255, 255, 0.5) 100%
+    );
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .terminal-border:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes scanlines {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
 }

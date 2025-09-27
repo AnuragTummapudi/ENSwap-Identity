@@ -75,18 +75,18 @@ const Sidebar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className={`bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700 transition-all duration-300 ${
+    <div className={`bg-black/95 backdrop-blur-sm border-r border-white/20 transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-72'
-    } h-screen fixed left-0 top-0 z-50 shadow-2xl`}>
+    } h-screen fixed left-0 top-0 z-50 neon-glow`}>
       {/* Header */}
-      <div className="p-4 border-b border-slate-700">
+      <div className="p-4 border-b border-white/20">
         <div className="flex items-center justify-between">
           {!isCollapsed && (
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center neon-white">
+                <Shield className="w-5 h-5" />
               </div>
-              <span className="text-xl font-bold text-white font-cursive">
+              <span className="text-xl font-bold text-white font-futuristic text-white-glow">
                 ENSwap
               </span>
             </Link>
@@ -95,7 +95,7 @@ const Sidebar = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-slate-400 hover:text-white hover:bg-slate-700"
+            className="text-white/60 hover:text-white hover:bg-white/10 border border-white/20"
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </Button>
@@ -104,24 +104,24 @@ const Sidebar = () => {
 
       {/* Network Status */}
       {networkName && !isCollapsed && (
-        <div className="p-3 border-b border-slate-700">
+        <div className="p-3 border-b border-white/20">
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-xs text-slate-300">{networkName}</span>
+            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse neon-glow" />
+            <span className="text-xs text-white/80 font-code">{networkName}</span>
           </div>
         </div>
       )}
 
       {/* Identity Status (Simplified) */}
       {isConnected && identity && !isCollapsed && (
-        <div className="p-3 border-b border-slate-700">
+        <div className="p-3 border-b border-white/20">
           <div className="flex items-center justify-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-xs text-green-400 font-medium">
+            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse neon-glow" />
+            <span className="text-xs text-cyan-400 font-medium font-code">
               {identity.ensName}
             </span>
             {reputationScore > 0 && (
-              <Badge variant="outline" className="text-yellow-400 border-yellow-400/30 text-xs">
+              <Badge variant="outline" className="text-yellow-400 border-yellow-400/50 text-xs bg-black/50">
                 {reputationScore}
               </Badge>
             )}
@@ -140,16 +140,16 @@ const Sidebar = () => {
                 isCollapsed 
                   ? "justify-center px-2 py-3" 
                   : "space-x-3 px-3 py-2.5"
-              } rounded-lg transition-all duration-200 group ${
+              } rounded-lg transition-all duration-200 group terminal-border ${
                 isActive(item.path)
-                  ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-400 border border-blue-500/30"
-                  : "text-slate-400 hover:text-white hover:bg-slate-700/50"
+                  ? "bg-white/10 text-white border-white/30 neon-white"
+                  : "text-white/60 hover:text-white hover:bg-white/5 border-white/10"
               }`}
               title={isCollapsed ? item.name : undefined}
             >
-              <item.icon className={`w-5 h-5 ${isActive(item.path) ? 'text-blue-400' : 'text-slate-400 group-hover:text-white'}`} />
+              <item.icon className={`w-5 h-5 ${isActive(item.path) ? 'text-white' : 'text-white/60 group-hover:text-white'}`} />
               {!isCollapsed && (
-                <span className="font-medium">{item.name}</span>
+                <span className="font-medium font-code">{item.name}</span>
               )}
             </Link>
           ))}

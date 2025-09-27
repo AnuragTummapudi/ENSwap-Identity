@@ -14,10 +14,10 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 - **Smart Contract**: `0xEe58d185f59e01034527d95FDd85236fa245Ea9f` (Hedera Testnet)
 - **GitHub**: https://github.com/AnuragTummapudi/ENSwap-Identity
 
-## 🏆 Partner Prize Alignment
+## 🚀 Advanced Technology Integration
 
-### 🎯 **1inch Integration** - **$1,500 Prize Pool**
-✅ **Comprehensive 1inch API Usage:**
+### 🎯 **1inch Integration** - **Comprehensive DEX Aggregation**
+✅ **Complete 1inch API Implementation:**
 - **Classic Swap API**: Real-time token swapping with optimal rates
 - **Quote API**: Live pricing and slippage calculations  
 - **Price Feed API**: Real-time token prices
@@ -26,21 +26,21 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 - **Protocols API**: DEX protocol information
 - **Health Check API**: Service status monitoring
 
-### 🎯 **ENS Integration** - **$10,000 Prize Pool**
-✅ **Creative ENS Use Cases:**
+### 🎯 **ENS Integration** - **Creative Identity Solutions**
+✅ **Innovative ENS Use Cases:**
 - **Transaction-Specific ENS Names**: Each swap gets unique ENS subname
 - **Reputation-Based Subnames**: High-reputation users can mint subnames
 - **ENS-as-Identity**: ENS names as primary user identifiers
 - **Cross-Platform Identity**: ENS names work across all features
 - **Subname Minting**: Automated subname creation for swaps
 
-### 🎯 **Hedera Integration** - **$3,500 Prize Pool**
+### 🎯 **Hedera Integration** - **Next-Generation Blockchain**
 ✅ **Advanced Hedera Features:**
 - **Hedera EVM Compatibility**: Smart contracts deployed on Hedera Testnet
 - **HTS System Contracts**: Integration with Hedera Token Service
 - **Native HBAR Support**: Direct HBAR token swapping
 - **Cross-Chain Ready**: Built for Hedera's cross-chain capabilities
-- **Reputation Bonuses**: Extra rewards for Hedera users
+- **Enhanced Reputation**: Advanced scoring system for Hedera users
 
 ## 🛠️ Technology Stack
 
@@ -169,9 +169,9 @@ struct Receipt {
 - Email: tummapudianurag@gmail.com
 - GitHub: @AnuragTummapudi
 
-## 🏅 Hackathon Achievements
+## 🏅 Technical Achievements
 
-### Technical Achievements
+### Core Development
 - ✅ Built complete full-stack Web3 application
 - ✅ Integrated multiple protocols (1inch, ENS, Hedera)
 - ✅ Implemented secure smart contracts
@@ -204,7 +204,7 @@ struct Receipt {
 
 ENSwap represents a significant step forward in combining decentralized identity with DeFi functionality. By creating a reputation-based trading system, we're building trust in the decentralized ecosystem while maintaining the core principles of Web3.
 
-The project demonstrates technical excellence, innovative thinking, and practical utility - making it a strong contender for the ETHGlobal hackathon.
+The project demonstrates technical excellence, innovative thinking, and practical utility - showcasing the future of Web3 identity and finance integration.
 
 ---
 

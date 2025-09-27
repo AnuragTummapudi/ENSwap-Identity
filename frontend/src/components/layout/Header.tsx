@@ -78,7 +78,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-white/30 shadow-sm">
+    <header className="bg-black/80 backdrop-blur-sm border-b border-white/20 shadow-sm">
       <div className="flex items-center justify-between h-16 px-6">
         {/* Left side - Empty for now */}
         <div className="flex items-center space-x-4">
@@ -118,7 +118,7 @@ const Header = () => {
                     })}
                   >
                     {!connected && (
-                      <Button onClick={openConnectModal} className="bg-blue-600 hover:bg-blue-700 text-white">
+                      <Button onClick={openConnectModal} className="btn-primary font-futuristic">
                         <Wallet className="w-4 h-4 mr-2" />
                         Connect Wallet
                       </Button>
@@ -131,16 +131,16 @@ const Header = () => {
             <div className="flex items-center space-x-3">
               {/* Network Badge */}
               {networkName && (
-                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2" />
+                <Badge variant="outline" className="bg-black/50 text-cyan-400 border-cyan-400/50 font-code">
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse neon-glow" />
                   {networkName}
                 </Badge>
               )}
 
               {/* Balance */}
-              <div className="flex items-center space-x-2 px-3 py-2 bg-gray-50 rounded-lg">
-                <span className="text-sm font-medium text-gray-700">
-                  {formatBalance(balance)} ETH
+              <div className="flex items-center space-x-2 px-3 py-2 bg-black/50 rounded-lg border border-white/20">
+                <span className="text-sm font-medium text-white font-code">
+                  {formatBalance(balance)} {networkName.includes('Hedera') ? 'HBAR' : 'ETH'}
                 </span>
               </div>
 
@@ -149,15 +149,15 @@ const Header = () => {
                 <Button
                   variant="outline"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 bg-gray-50 border-gray-200 hover:bg-gray-100"
+                  className="flex items-center space-x-2 px-3 py-2 bg-black/50 border-white/20 hover:bg-white/10 terminal-border"
                 >
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">
+                    <div className="w-8 h-8 bg-white text-black rounded-full flex items-center justify-center neon-white">
+                      <span className="text-black text-xs font-bold font-code">
                         {account ? account.slice(2, 4).toUpperCase() : '?'}
                       </span>
                     </div>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-white font-code">
                       {formatAddress(account || '')}
                     </span>
                   </div>
