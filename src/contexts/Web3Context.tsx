@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useAccount, useConnect, useDisconnect, useBalance } from 'wagmi';
 import { web3Service, UserIdentity, Receipt } from '@/services/web3Service';
 import { useToast } from '@/hooks/use-toast';
 
@@ -35,9 +36,13 @@ interface Web3ProviderProps {
 }
 
 export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [account, setAccount] = useState<string | null>(null);
-  const [balance, setBalance] = useState('0');
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { data: balanceData } = useBalance({
+    address: address,
+  });
+  
   const [identity, setIdentity] = useState<UserIdentity | null>(null);
   const [reputationScore, setReputationScore] = useState(0);
   const [receipts, setReceipts] = useState<Receipt[]>([]);
@@ -46,66 +51,19 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   
   const { toast } = useToast();
 
-  // Initialize connection state
+  // Load user data when wallet connects
   useEffect(() => {
-    const initWeb3 = async () => {
-      try {
-        const accounts = await window.ethereum?.request({ method: 'eth_accounts' });
-        if (accounts && accounts.length > 0) {
-          await connectWallet();
-        }
-      } catch (error) {
-        console.error('Failed to initialize Web3:', error);
-      }
-    };
-
-    initWeb3();
-
-    // Listen for account changes
-    const handleAccountsChanged = (accounts: string[]) => {
-      if (accounts.length === 0) {
-        disconnectWallet();
-      } else {
-        connectWallet();
-      }
-    };
-
-    // Listen for chain changes
-    const handleChainChanged = () => {
-      window.location.reload();
-    };
-
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', handleAccountsChanged);
-      window.ethereum.on('chainChanged', handleChainChanged);
+    if (isConnected && address) {
+      refreshIdentity();
+      refreshReceipts();
     }
-
-    return () => {
-      if (window.ethereum) {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
-        window.ethereum.removeListener('chainChanged', handleChainChanged);
-      }
-    };
-  }, []);
+  }, [isConnected, address]);
 
   const connectWallet = async () => {
     try {
       setIsLoading(true);
-      const address = await web3Service.connectWallet();
-      setAccount(address);
-      setIsConnected(true);
-      
-      // Load user data
-      await Promise.all([
-        refreshIdentity(),
-        refreshReceipts(),
-        refreshBalance(),
-      ]);
-      
-      toast({
-        title: "Wallet Connected",
-        description: `Connected to ${address.slice(0, 6)}...${address.slice(-4)}`,
-      });
+      // RainbowKit will handle the connection UI
+      // We don't need to call anything here as RainbowKit manages the connection
     } catch (error: any) {
       console.error('Failed to connect wallet:', error);
       toast({
@@ -119,10 +77,7 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const disconnectWallet = () => {
-    web3Service.disconnect();
-    setIsConnected(false);
-    setAccount(null);
-    setBalance('0');
+    disconnect();
     setIdentity(null);
     setReputationScore(0);
     setReceipts([]);
@@ -184,20 +139,14 @@ export const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
   };
 
   const refreshBalance = async () => {
-    if (!isConnected || !account) return;
-    
-    try {
-      const balanceData = await web3Service.getBalance();
-      setBalance(balanceData);
-    } catch (error) {
-      console.error('Failed to refresh balance:', error);
-    }
+    // Balance is now managed by Wagmi's useBalance hook
+    // No need for manual refresh
   };
 
   const value: Web3ContextType = {
     isConnected,
-    account,
-    balance,
+    account: address || null,
+    balance: balanceData ? balanceData.formatted : '0',
     identity,
     reputationScore,
     receipts,

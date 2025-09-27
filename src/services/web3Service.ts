@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { getPublicClient, getWalletClient } from '@wagmi/core';
 import { CONTRACT_ADDRESS, NETWORKS } from '@/config/constants';
 
 // Contract ABI for ENSwapIdentity
@@ -28,27 +29,26 @@ export interface Receipt {
 }
 
 class Web3Service {
-  private provider: ethers.BrowserProvider | null = null;
-  private signer: ethers.JsonRpcSigner | null = null;
   private contract: ethers.Contract | null = null;
 
   async connectWallet(): Promise<string> {
     try {
-      if (typeof window.ethereum === 'undefined') {
-        throw new Error('MetaMask is not installed');
+      const walletClient = await getWalletClient();
+      if (!walletClient) {
+        throw new Error('Wallet not connected');
       }
 
-      this.provider = new ethers.BrowserProvider(window.ethereum);
-      this.signer = await this.provider.getSigner();
+      const provider = new ethers.BrowserProvider(walletClient);
+      const signer = await provider.getSigner();
       
       // Initialize contract
       this.contract = new ethers.Contract(
         CONTRACT_ADDRESS,
         CONTRACT_ABI,
-        this.signer
+        signer
       );
 
-      const address = await this.signer.getAddress();
+      const address = await signer.getAddress();
       return address;
     } catch (error) {
       console.error('Failed to connect wallet:', error);
@@ -58,8 +58,9 @@ class Web3Service {
 
   async getAccount(): Promise<string | null> {
     try {
-      if (!this.signer) return null;
-      return await this.signer.getAddress();
+      const walletClient = await getWalletClient();
+      if (!walletClient) return null;
+      return walletClient.account.address;
     } catch (error) {
       console.error('Failed to get account:', error);
       return null;
@@ -163,15 +164,14 @@ class Web3Service {
   }
 
   async getBalance(address?: string): Promise<string> {
-    if (!this.provider) {
-      throw new Error('Wallet not connected');
-    }
-
     try {
+      const publicClient = getPublicClient();
+      if (!publicClient) return '0';
+
       const addr = address || await this.getAccount();
       if (!addr) return '0';
 
-      const balance = await this.provider.getBalance(addr);
+      const balance = await publicClient.getBalance({ address: addr as `0x${string}` });
       return ethers.formatEther(balance);
     } catch (error) {
       console.error('Failed to get balance:', error);
@@ -211,12 +211,10 @@ class Web3Service {
   }
 
   isConnected(): boolean {
-    return this.provider !== null && this.signer !== null;
+    return this.contract !== null;
   }
 
   disconnect(): void {
-    this.provider = null;
-    this.signer = null;
     this.contract = null;
   }
 }

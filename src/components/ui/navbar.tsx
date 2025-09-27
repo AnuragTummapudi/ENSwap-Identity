@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Wallet, Shield, ArrowLeftRight, BarChart3, Menu, X, User, Home } from "lucide-react";
-import { useWeb3 } from "@/contexts/Web3Context";
+import { ArrowLeftRight, BarChart3, Menu, X, User, Home } from "lucide-react";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { isConnected, account, connectWallet, disconnectWallet } = useWeb3();
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
@@ -17,32 +16,6 @@ const Navbar = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-
-  const ConnectWalletButton = () => {
-    if (isConnected && account) {
-      return (
-        <Button 
-          variant="outline" 
-          className="btn-primary hover:animate-glow-pulse"
-          onClick={disconnectWallet}
-        >
-          <Wallet className="w-4 h-4 mr-2" />
-          {`${account.slice(0, 6)}...${account.slice(-4)}`}
-        </Button>
-      );
-    }
-
-    return (
-      <Button 
-        variant="outline" 
-        className="btn-primary hover:animate-glow-pulse"
-        onClick={connectWallet}
-      >
-        <Wallet className="w-4 h-4 mr-2" />
-        Connect Wallet
-      </Button>
-    );
-  };
 
   return (
     <nav className="glass-card border-b border-white/20 sticky top-0 z-50">
@@ -75,7 +48,7 @@ const Navbar = () => {
 
           {/* Connect Wallet Button - Desktop */}
           <div className="hidden md:block">
-            <ConnectWalletButton />
+            <ConnectButton />
           </div>
 
           {/* Mobile Menu Button */}
@@ -107,7 +80,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="pt-2 border-t border-white/20">
-                <ConnectWalletButton />
+                <ConnectButton />
               </div>
             </div>
           </div>
