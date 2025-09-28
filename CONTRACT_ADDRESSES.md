@@ -1,20 +1,21 @@
 # ENSwap Contract Addresses
 
-## 🏆 Currently Deployed Contract
+## 🎉 All Contracts Successfully Deployed!
 
 ### ENSwapIdentity Contract
-- **Address:** `0xEe58d185f59e01034527d95FDd85236fa245Ea9f`
+- **Address:** `0x522884a14f04b584165fB87eFebEe6a8C480d623`
 - **Network:** Hedera Testnet (Chain ID: 296)
-- **Deployed:** September 27, 2025
+- **Deployed:** September 28, 2025
 - **Status:** ✅ Deployed and Verified
-- **Block Explorer:** https://hashscan.io/testnet/contract/0xEe58d185f59e01034527d95FDd85236fa245Ea9f
+- **Block Explorer:** https://hashscan.io/testnet/contract/0x522884a14f04b584165fB87eFebEe6a8C480d623
 - **Purpose:** Core identity and reputation management
 
-## 🚀 Enhanced Contracts (Ready for Deployment)
-
 ### ENSSwapIntegration Contract
-- **Mock Address:** `0x1234567890123456789012345678901234567890`
-- **Status:** 🔄 Ready for deployment
+- **Address:** `0xEd0bb47997770ea0aA03aFb7054c13fd674cA19f`
+- **Network:** Hedera Testnet (Chain ID: 296)
+- **Deployed:** September 28, 2025
+- **Status:** ✅ Deployed and Verified
+- **Block Explorer:** https://hashscan.io/testnet/contract/0xEd0bb47997770ea0aA03aFb7054c13fd674cA19f
 - **Purpose:** Enhanced ENS integration with creative subname features
 - **Features:**
   - Transaction-specific ENS subnames
@@ -22,8 +23,11 @@
   - ENS-as-identity across platform
 
 ### HederaENSSwap Contract
-- **Mock Address:** `0x2345678901234567890123456789012345678901`
-- **Status:** 🔄 Ready for deployment
+- **Address:** `0xCF2F43C351017d6d8fAFA1536b4048737eAB0b41`
+- **Network:** Hedera Testnet (Chain ID: 296)
+- **Deployed:** September 28, 2025
+- **Status:** ✅ Deployed and Verified
+- **Block Explorer:** https://hashscan.io/testnet/contract/0xCF2F43C351017d6d8fAFA1536b4048737eAB0b41
 - **Purpose:** Hedera-specific features with HTS and HBAR support
 - **Features:**
   - HTS System Contracts integration
@@ -31,6 +35,18 @@
   - Hedera EVM compatibility
 
 ## 📋 Environment Variables Summary
+
+### Updated Frontend .env Variables:
+```bash
+# Contract Addresses - DEPLOYED ON HEDERA TESTNET
+VITE_ENSWAP_IDENTITY_ADDRESS=0x522884a14f04b584165fB87eFebEe6a8C480d623
+VITE_ENS_SWAP_INTEGRATION_ADDRESS=0xEd0bb47997770ea0aA03aFb7054c13fd674cA19f
+VITE_HEDERA_ENS_SWAP_ADDRESS=0xCF2F43C351017d6d8fAFA1536b4048737eAB0b41
+
+# API Keys
+VITE_ONE_INCH_API_KEY=3T7z7yeDMd35XLNZhUrBxBx0qBXm490T
+VITE_PROJECT_ID=aea25227957bdbe6ba50b99b18e6a69c
+```
 
 
 ## 🎯 Technology Integration Status
@@ -41,13 +57,13 @@
 - ✅ **Real-time data:** Live quotes and swaps
 
 ### ENS Integration
-- 🔄 **Enhanced Contract:** ENSSwapIntegration (ready for deployment)
+- ✅ **Enhanced Contract:** ENSSwapIntegration deployed and verified
 - ✅ **Creative Features:** Transaction-specific subnames, reputation-based naming
 - ✅ **Identity System:** ENS-as-identity across platform
 
 ### Hedera Integration
 - ✅ **Primary Contract:** ENSwapIdentity deployed on Hedera Testnet
-- 🔄 **Enhanced Contract:** HederaENSSwap (ready for deployment)
+- ✅ **Enhanced Contract:** HederaENSSwap deployed and verified
 - ✅ **Network Support:** Hedera Testnet with HTS integration
 
 ## 🚀 Next Steps for Full Deployment

@@ -51,10 +51,10 @@ const ActivityPage = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-green-500/20 text-green-600 border-green-500/30";
-      case "pending": return "bg-yellow-500/20 text-yellow-600 border-yellow-500/30";
-      case "failed": return "bg-red-500/20 text-red-600 border-red-500/30";
-      default: return "bg-gray-500/20 text-gray-600 border-gray-500/30";
+      case "completed": return "bg-green-500/20 text-green-400 border-green-400/50";
+      case "pending": return "bg-yellow-500/20 text-yellow-400 border-yellow-400/50";
+      case "failed": return "bg-red-500/20 text-red-400 border-red-400/50";
+      default: return "bg-gray-500/20 text-gray-400 border-gray-400/50";
     }
   };
 
@@ -73,10 +73,10 @@ const ActivityPage = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold mb-2 font-futuristic text-white-glow">
                 Activity
               </h1>
-              <p className="text-lg text-slate-600">
+              <p className="text-lg text-white/70 font-mono-space">
                 Track all your Web3 transactions and activities
               </p>
             </div>
@@ -95,21 +95,21 @@ const ActivityPage = () => {
         {/* Activity List */}
         <div className="space-y-4">
           {!isConnected ? (
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+            <Card className="glass-card terminal-border hover-lift">
               <CardContent className="p-12 text-center">
-                <Activity className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Wallet Connected</h3>
-                <p className="text-slate-600">
+                <Activity className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                <h3 className="text-xl font-semibold mb-2 font-futuristic text-white">No Wallet Connected</h3>
+                <p className="text-white/70 font-code">
                   Connect your wallet to view your transaction history.
                 </p>
               </CardContent>
             </Card>
           ) : activities.length === 0 ? (
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+            <Card className="glass-card terminal-border hover-lift">
               <CardContent className="p-12 text-center">
-                <Activity className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Activity Yet</h3>
-                <p className="text-slate-600">
+                <Activity className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                <h3 className="text-xl font-semibold mb-2 font-futuristic text-white">No Activity Yet</h3>
+                <p className="text-white/70 font-code">
                   Start by creating an identity or performing token swaps to see your activity here.
                 </p>
               </CardContent>

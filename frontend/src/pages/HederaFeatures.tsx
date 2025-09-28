@@ -153,79 +153,79 @@ const HederaFeatures = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black text-white grid-bg">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <Zap className="w-12 h-12 text-primary animate-float" />
+            <Zap className="w-12 h-12 text-green-400 animate-float" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 font-futuristic text-white-glow">
             Hedera Integration Features
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-white/70 font-mono-space max-w-3xl mx-auto">
             Experience the power of Hedera with HTS tokens, native HBAR swapping, and enhanced reputation systems.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Hedera Profile */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+          <Card className="glass-card terminal-border hover-lift animate-slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
-                Hedera Profile
+                <Zap className="w-5 h-5 text-green-400" />
+                <span className="font-futuristic text-white">Hedera Profile</span>
               </CardTitle>
-              <CardDescription>Your Hedera network identity and statistics</CardDescription>
+              <CardDescription className="text-white/70 font-code">Your Hedera network identity and statistics</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {hederaProfile ? (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">ENS Name</span>
-                    <Badge variant="outline" className="text-primary">
+                    <span className="text-sm font-medium text-white font-code">ENS Name</span>
+                    <Badge variant="outline" className="text-green-400 border-green-400/50">
                       {hederaProfile.ensName}
                     </Badge>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">HBAR Balance</span>
+                    <span className="text-sm font-medium text-white font-code">HBAR Balance</span>
                     <div className="flex items-center gap-2">
-                      <Coins className="w-4 h-4 text-green-500" />
-                      <span className="font-medium">{hederaProfile.hbarBalance} HBAR</span>
+                      <Coins className="w-4 h-4 text-green-400" />
+                      <span className="font-medium text-white">{hederaProfile.hbarBalance} HBAR</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Hedera Reputation</span>
+                    <span className="text-sm font-medium text-white font-code">Hedera Reputation</span>
                     <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-yellow-500" />
-                      <span className="font-medium">{hederaProfile.reputationScore}</span>
+                      <Star className="w-4 h-4 text-yellow-400" />
+                      <span className="font-medium text-white">{hederaProfile.reputationScore}</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Total Hedera Swaps</span>
-                    <span className="font-medium">{hederaProfile.totalHederaSwaps}</span>
+                    <span className="text-sm font-medium text-white font-code">Total Hedera Swaps</span>
+                    <span className="font-medium text-white">{hederaProfile.totalHederaSwaps}</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Status</span>
-                    <Badge variant={hederaProfile.isHederaVerified ? "default" : "secondary"}>
+                    <span className="text-sm font-medium text-white font-code">Status</span>
+                    <Badge variant={hederaProfile.isHederaVerified ? "default" : "secondary"} className={hederaProfile.isHederaVerified ? "bg-green-500/20 text-green-400 border-green-400/50" : "bg-red-500/20 text-red-400 border-red-400/50"}>
                       {hederaProfile.isHederaVerified ? "Verified" : "Unverified"}
                     </Badge>
                   </div>
 
                   {/* Associated Tokens */}
                   <div className="space-y-2">
-                    <span className="text-sm font-medium">Associated HTS Tokens ({hederaProfile.associatedTokens.length})</span>
+                    <span className="text-sm font-medium text-white font-code">Associated HTS Tokens ({hederaProfile.associatedTokens.length})</span>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {hederaProfile.associatedTokens.map((tokenId, index) => {
                         const tokenData = hederaTokens.find(t => t.address === tokenId);
                         return (
-                          <div key={index} className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg">
-                            <Shield className="w-3 h-3 text-muted-foreground" />
-                            <span className="text-xs font-mono">{tokenData?.symbol || tokenId.slice(0, 8)}</span>
+                          <div key={index} className="flex items-center gap-2 p-2 bg-white/10 border border-white/20 rounded-lg">
+                            <Shield className="w-3 h-3 text-green-400" />
+                            <span className="text-xs font-mono text-white">{tokenData?.symbol || tokenId.slice(0, 8)}</span>
                           </div>
                         );
                       })}
@@ -234,8 +234,8 @@ const HederaFeatures = () => {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <Zap className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                  <p className="text-muted-foreground">
+                  <Zap className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                  <p className="text-white/70 font-code">
                     {isConnected ? "Loading Hedera profile..." : "Connect wallet to view Hedera profile"}
                   </p>
                 </div>
@@ -244,32 +244,33 @@ const HederaFeatures = () => {
           </Card>
 
           {/* HBAR Swap */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Coins className="w-5 h-5 text-primary" />
-                HBAR Swap
+                <Coins className="w-5 h-5 text-green-400" />
+                <span className="font-futuristic text-white">HBAR Swap</span>
               </CardTitle>
-              <CardDescription>Swap HBAR for HTS tokens with reputation bonuses</CardDescription>
+              <CardDescription className="text-white/70 font-code">Swap HBAR for HTS tokens with reputation bonuses</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
-                <label className="text-sm font-medium">HBAR Amount</label>
+                <label className="text-sm font-medium text-white font-code">HBAR Amount</label>
                 <Input
                   type="number"
                   placeholder="Enter HBAR amount"
                   value={hbarAmount}
                   onChange={(e) => setHbarAmount(e.target.value)}
+                  className="input-glass font-code"
                 />
               </div>
 
               <div className="space-y-3">
-                <label className="text-sm font-medium">Receive Token</label>
+                <label className="text-sm font-medium text-white font-code">Receive Token</label>
                 <Select value={selectedToken} onValueChange={setSelectedToken}>
-                  <SelectTrigger>
+                  <SelectTrigger className="input-glass">
                     <SelectValue placeholder="Select token to receive" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-black border-white/20 text-white">
                     {hederaTokens.filter(token => token.symbol !== "HBAR").map((token) => (
                       <SelectItem key={token.address} value={token.address}>
                         {token.symbol} - {token.name}
@@ -298,13 +299,13 @@ const HederaFeatures = () => {
               </Button>
 
               {/* Reputation Bonus Info */}
-              <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div className="p-3 bg-green-500/20 border border-green-400/50 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-800">Hedera Bonus</span>
+                  <TrendingUp className="w-4 h-4 text-green-400" />
+                  <span className="text-sm font-medium text-green-400 font-code">Hedera Bonus</span>
                 </div>
-                <p className="text-xs text-green-700 mt-1">
-                  +{hederaService.getHBARSwapBonus()} reputation points for HBAR swaps
+                <p className="text-xs text-green-400/80 mt-1 font-code">
+                  +25 reputation points for HBAR swaps
                 </p>
               </div>
             </CardContent>

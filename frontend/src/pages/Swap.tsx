@@ -261,24 +261,24 @@ const Swap = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed": return "bg-green-500/20 text-green-600 border-green-500/30";
-      case "pending": return "bg-yellow-500/20 text-yellow-600 border-yellow-500/30";
-      default: return "bg-gray-500/20 text-gray-600 border-gray-500/30";
+      case "completed": return "bg-green-500/20 text-green-400 border-green-500/30";
+      case "pending": return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+      default: return "bg-gray-500/20 text-gray-400 border-gray-500/30";
     }
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black text-white grid-bg">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <ArrowLeftRight className="w-12 h-12 text-primary animate-float" />
+            <ArrowLeftRight className="w-12 h-12 text-cyan-400 animate-float" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 font-futuristic text-white-glow">
             Token Swap
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 max-w-2xl mx-auto font-mono-space">
             Secure, identity-verified token swaps across multiple networks
           </p>
         </div>
@@ -286,20 +286,20 @@ const Swap = () => {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Swap Interface */}
           <div className="lg:col-span-2">
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+            <Card className="glass-card terminal-border hover-lift animate-slide-up">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-primary" />
-                  Swap Tokens
+                  <Zap className="w-5 h-5 text-cyan-400" />
+                  <span className="font-futuristic text-white">Swap Tokens</span>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-white/70 font-code">
                   Exchange tokens with the best rates powered by 1inch
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* From Token */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">From</label>
+                  <label className="text-sm font-medium text-white font-code">From</label>
                   <div className="flex gap-3">
                     <Select value={tokenFrom} onValueChange={setTokenFrom}>
                       <SelectTrigger className="w-32">
@@ -342,7 +342,7 @@ const Swap = () => {
 
                 {/* To Token */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">To</label>
+                  <label className="text-sm font-medium text-white font-code">To</label>
                   <div className="flex gap-3">
                     <Select value={tokenTo} onValueChange={setTokenTo}>
                       <SelectTrigger className="w-32">
@@ -378,33 +378,33 @@ const Swap = () => {
 
                 {/* Quote Information */}
                 {quote && (
-                  <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                  <div className="p-4 bg-black/30 border border-white/20 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium">Quote</span>
+                      <span className="text-sm font-medium text-white font-code">Quote</span>
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-success" />
-                        <span className="text-sm text-success">Best Rate</span>
+                        <TrendingUp className="w-4 h-4 text-green-400" />
+                        <span className="text-sm text-green-400 font-code">Best Rate</span>
                       </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-white/80 font-code">
                       Rate: 1 {quote.fromToken.symbol} = {oneInchService.formatTokenAmount(quote.toAmount, quote.toToken.decimals)} {quote.toToken.symbol}
                     </div>
-                    <div className="text-xs text-muted-foreground mt-1">
+                    <div className="text-xs text-white/60 font-code mt-1">
                       Estimated gas: {quote.estimatedGas} gas units
                     </div>
                   </div>
                 )}
 
                 {/* Identity Verification */}
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="p-4 bg-black/30 border border-white/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-4 h-4 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-800">Identity Verification</span>
+                    <Shield className="w-4 h-4 text-cyan-400" />
+                    <span className="text-sm font-medium text-white font-code">Identity Verification</span>
                   </div>
-                  <div className="text-sm text-blue-700">
+                  <div className="text-sm text-white/80 font-code">
                     {identity ? (
                       <div className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <CheckCircle className="w-4 h-4 text-green-400" />
                         <span>Verified with {identity.ensName}</span>
                       </div>
                     ) : (
@@ -442,30 +442,30 @@ const Swap = () => {
 
           {/* Swap History */}
           <div className="lg:col-span-1">
-            <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <CardHeader>
-                <CardTitle className="text-lg">Recent Swaps</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg font-futuristic text-white">Recent Swaps</CardTitle>
+                <CardDescription className="text-white/70 font-code">
                   Your identity-verified swap history
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {receipts.length === 0 ? (
                   <div className="text-center py-8">
-                    <ArrowLeftRight className="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
-                    <p className="text-sm text-muted-foreground">No swaps yet</p>
-                    <p className="text-xs text-muted-foreground">Your swap history will appear here</p>
+                    <ArrowLeftRight className="w-12 h-12 text-white/40 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm text-white/70 font-code">No swaps yet</p>
+                    <p className="text-xs text-white/50 font-code">Your swap history will appear here</p>
                   </div>
                 ) : (
                   receipts.slice(0, 5).map((receipt) => (
                     <div 
                       key={receipt.receiptHash}
-                      className="flex items-start gap-3 p-3 bg-white/30 border border-white/20 rounded-lg"
+                      className="flex items-start gap-3 p-3 bg-black/30 border border-white/20 rounded-lg"
                     >
                       <div className="text-xl mt-0.5">🔄</div>
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium">{receipt.swapDetails}</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-sm font-medium text-white font-code">{receipt.swapDetails}</div>
+                        <div className="text-xs text-white/60 font-code">
                           {new Date(receipt.timestamp * 1000).toLocaleString()}
                         </div>
                       </div>

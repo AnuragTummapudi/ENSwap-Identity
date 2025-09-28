@@ -78,30 +78,30 @@ const Identity = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black text-white grid-bg">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <Shield className="w-12 h-12 text-primary animate-float" />
+            <Shield className="w-12 h-12 text-cyan-400 animate-float" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 font-futuristic text-white-glow">
             Create Your Web3 Identity
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-white/70 font-mono-space max-w-2xl mx-auto">
             Test the identity system for free! No real ENS registration required - just use demo values.
           </p>
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-2xl mx-auto">
+          <div className="mt-4 p-4 bg-black/30 border border-white/20 rounded-lg max-w-2xl mx-auto">
             <div className="flex items-start gap-3">
-              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-xs font-bold">i</span>
+              <div className="w-6 h-6 bg-cyan-400 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-black text-xs font-bold">i</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-blue-800 mb-2">🆓 <strong>Free Testing on Hedera Testnet!</strong></p>
-                <p className="text-sm text-blue-700 mb-2">
+                <p className="text-sm font-medium text-white mb-2 font-code">🆓 <strong>Free Testing on Hedera Testnet!</strong></p>
+                <p className="text-sm text-white/80 mb-2 font-code">
                   This identity creation is completely free! We're using Hedera Testnet with test HBAR tokens - no real money required.
                 </p>
-                <p className="text-xs text-blue-600">
+                <p className="text-xs text-white/70 font-code">
                   💡 <strong>How it works:</strong> Your wallet will automatically switch to Hedera Testnet and use test HBAR for gas fees. Perfect for development and testing!
                 </p>
               </div>
@@ -111,60 +111,60 @@ const Identity = () => {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Identity Creation Form */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+          <Card className="glass-card terminal-border hover-lift animate-slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5 text-primary" />
-                Identity Registration
+                <User className="w-5 h-5 text-cyan-400" />
+                <span className="font-futuristic text-white">Identity Registration</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Enter your ENS name and decentralized identifier
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-primary" />
+                <label className="text-sm font-medium flex items-center gap-2 text-white font-code">
+                  <Globe className="w-4 h-4 text-cyan-400" />
                   ENS Name (Demo)
                 </label>
                 <Input
                   placeholder="testuser.eth (demo only)"
                   value={ensName}
                   onChange={(e) => setEnsName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="input-glass font-code"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-white/70 font-code">
                   💡 For demo purposes, any name ending with .eth will work. No real ENS registration required!
                 </p>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium flex items-center gap-2">
-                  <Key className="w-4 h-4 text-primary" />
+                <label className="text-sm font-medium flex items-center gap-2 text-white font-code">
+                  <Key className="w-4 h-4 text-cyan-400" />
                   DID Identity (Auto-generated)
                 </label>
                 <Input
                   placeholder="did:ethr:0x... (will auto-fill with your wallet address)"
                   value={didIdentity}
                   onChange={(e) => setDidIdentity(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="input-glass font-code"
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-white/70 font-code">
                   🔧 We'll auto-generate this from your wallet address when connected
                 </p>
               </div>
 
               {/* Demo Helper */}
               {isConnected && (!ensName || !didIdentity) && (
-                <div className="p-3 bg-primary/10 border border-primary/20 rounded-lg">
-                  <p className="text-sm text-primary mb-2">
+                <div className="p-3 bg-black/30 border border-white/20 rounded-lg">
+                  <p className="text-sm text-white mb-2 font-code">
                     🚀 <strong>Quick Start:</strong> Fill demo values to test the identity system for free!
                   </p>
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={fillDemoValues}
-                    className="text-primary border-primary/30 hover:bg-primary/10"
+                    className="btn-secondary font-futuristic"
                   >
                     Fill Demo Values
                   </Button>
@@ -173,23 +173,23 @@ const Identity = () => {
 
               {!isConnected ? (
                 <div className="space-y-4">
-                  <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+                  <div className="p-4 bg-black/30 border border-white/20 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <Wallet className="w-5 h-5 text-warning" />
-                      <span className="font-medium text-warning">Wallet Not Connected</span>
+                      <Wallet className="w-5 h-5 text-yellow-400" />
+                      <span className="font-medium text-yellow-400 font-code">Wallet Not Connected</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-white/70 font-code">
                       Please connect your wallet using the "Connect Wallet" button in the navigation bar above.
                     </p>
                   </div>
                 </div>
               ) : identity ? (
-                <div className="p-4 bg-success/10 border border-success/20 rounded-lg">
+                <div className="p-4 bg-black/30 border border-white/20 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle className="w-5 h-5 text-success" />
-                    <span className="font-medium text-success">Identity Already Created</span>
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <span className="font-medium text-green-400 font-code">Identity Already Created</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/70 font-code">
                     You already have an identity registered: <strong>{identity.ensName}</strong>
                   </p>
                 </div>
@@ -217,13 +217,13 @@ const Identity = () => {
           </Card>
 
           {/* User Profile Display */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5 text-primary" />
-                Identity Profile
+                <User className="w-5 h-5 text-cyan-400" />
+                <span className="font-futuristic text-white">Identity Profile</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Your Web3 identity information
               </CardDescription>
             </CardHeader>
@@ -231,32 +231,32 @@ const Identity = () => {
               {identity ? (
                 <>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-black/30 border border-white/20 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-                        <span className="text-sm font-medium">Identity Active</span>
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                        <span className="text-sm font-medium text-white font-code">Identity Active</span>
                       </div>
-                      <Badge variant="secondary" className="bg-success/20 text-success">
+                      <Badge variant="secondary" className="bg-green-500/20 text-green-400">
                         Verified
                       </Badge>
                     </div>
                     
                     <div className="space-y-3">
                       <div>
-                        <label className="text-sm font-medium text-muted-foreground">ENS Name</label>
-                        <div className="font-medium text-primary">{identity.ensName}</div>
+                        <label className="text-sm font-medium text-white/70 font-code">ENS Name</label>
+                        <div className="font-medium text-cyan-400 font-code">{identity.ensName}</div>
                       </div>
                       
                       <div>
-                        <label className="text-sm font-medium text-muted-foreground">DID Identity</label>
-                        <div className="text-xs font-mono bg-muted/50 p-2 rounded break-all">
+                        <label className="text-sm font-medium text-white/70 font-code">DID Identity</label>
+                        <div className="text-xs font-mono bg-black/30 border border-white/20 p-2 rounded break-all text-white/80">
                           {identity.did}
                         </div>
                       </div>
                       
                       <div>
-                        <label className="text-sm font-medium text-muted-foreground">Wallet Address</label>
-                        <div className="text-xs font-mono bg-muted/50 p-2 rounded break-all">
+                        <label className="text-sm font-medium text-white/70 font-code">Wallet Address</label>
+                        <div className="text-xs font-mono bg-black/30 border border-white/20 p-2 rounded break-all text-white/80">
                           {identity.wallet}
                         </div>
                       </div>
@@ -265,8 +265,8 @@ const Identity = () => {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <User className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                  <p className="text-muted-foreground">
+                  <User className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                  <p className="text-white/70 font-code">
                     Connect your wallet to view your identity profile.
                   </p>
                 </div>
@@ -281,7 +281,7 @@ const Identity = () => {
             <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
               How Identity Creation Works
             </h3>
-            <p className="text-muted-foreground">Understanding the process step by step</p>
+            <p className="text-white/70 font-code">Understanding the process step by step</p>
           </div>
           
           <div className="grid md:grid-cols-4 gap-6">

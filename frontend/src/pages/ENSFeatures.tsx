@@ -164,69 +164,69 @@ const ENSFeatures = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-black text-white grid-bg">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <Globe className="w-12 h-12 text-primary animate-float" />
+            <Globe className="w-12 h-12 text-cyan-400 animate-float" />
           </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-4 font-futuristic text-white-glow">
             ENS Integration Features
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-white/70 font-mono-space max-w-3xl mx-auto">
             Discover the power of ENS with transaction-specific names, reputation-based subnames, and creative identity management.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* ENS Profile */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up">
+          <Card className="glass-card terminal-border hover-lift animate-slide-up">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Globe className="w-5 h-5 text-primary" />
-                ENS Profile
+                <Globe className="w-5 h-5 text-cyan-400" />
+                <span className="font-futuristic text-white">ENS Profile</span>
               </CardTitle>
-              <CardDescription>Your decentralized identity and reputation</CardDescription>
+              <CardDescription className="text-white/70 font-code">Your decentralized identity and reputation</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {ensProfile ? (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Primary Name</span>
-                    <Badge variant="outline" className="text-primary">
+                    <span className="text-sm font-medium text-white font-code">Primary Name</span>
+                    <Badge variant="outline" className="text-cyan-400 border-cyan-400/50">
                       {ensProfile.primaryName}
                     </Badge>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Reputation Score</span>
+                    <span className="text-sm font-medium text-white font-code">Reputation Score</span>
                     <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-yellow-500" />
-                      <span className="font-medium">{ensProfile.reputationScore}</span>
+                      <Star className="w-4 h-4 text-yellow-400" />
+                      <span className="font-medium text-white">{ensProfile.reputationScore}</span>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Total Swaps</span>
-                    <span className="font-medium">{ensProfile.totalSwaps}</span>
+                    <span className="text-sm font-medium text-white font-code">Total Swaps</span>
+                    <span className="font-medium text-white">{ensProfile.totalSwaps}</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Status</span>
-                    <Badge variant={ensProfile.isVerified ? "default" : "secondary"}>
+                    <span className="text-sm font-medium text-white font-code">Status</span>
+                    <Badge variant={ensProfile.isVerified ? "default" : "secondary"} className={ensProfile.isVerified ? "bg-green-500/20 text-green-400 border-green-400/50" : "bg-red-500/20 text-red-400 border-red-400/50"}>
                       {ensProfile.isVerified ? "Verified" : "Unverified"}
                     </Badge>
                   </div>
 
                   {/* Subnames */}
                   <div className="space-y-2">
-                    <span className="text-sm font-medium">Subnames ({ensProfile.subnames.length})</span>
+                    <span className="text-sm font-medium text-white font-code">Subnames ({ensProfile.subnames.length})</span>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {ensProfile.subnames.map((subname, index) => (
-                        <div key={index} className="flex items-center gap-2 p-2 bg-muted/50 rounded-lg">
-                          <Hash className="w-3 h-3 text-muted-foreground" />
-                          <span className="text-xs font-mono">{subname}</span>
+                        <div key={index} className="flex items-center gap-2 p-2 bg-white/10 border border-white/20 rounded-lg">
+                          <Hash className="w-3 h-3 text-cyan-400" />
+                          <span className="text-xs font-mono text-white">{subname}</span>
                         </div>
                       ))}
                     </div>
@@ -234,8 +234,8 @@ const ENSFeatures = () => {
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <Globe className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                  <p className="text-muted-foreground">
+                  <Globe className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                  <p className="text-white/70 font-code">
                     {isConnected ? "Loading ENS profile..." : "Connect wallet to view ENS profile"}
                   </p>
                 </div>
@@ -244,19 +244,19 @@ const ENSFeatures = () => {
           </Card>
 
           {/* ENS Actions */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                ENS Actions
+                <Sparkles className="w-5 h-5 text-blue-400" />
+                <span className="font-futuristic text-white">ENS Actions</span>
               </CardTitle>
-              <CardDescription>Create and manage your ENS identity</CardDescription>
+              <CardDescription className="text-white/70 font-code">Create and manage your ENS identity</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Create Swap ENS */}
               <div className="space-y-3">
-                <h4 className="font-medium">Create Swap ENS Name</h4>
-                <p className="text-sm text-muted-foreground">
+                <h4 className="font-medium text-white font-code">Create Swap ENS Name</h4>
+                <p className="text-sm text-white/70 font-code">
                   Generate a unique ENS subname for your next swap transaction
                 </p>
                 <Button 
@@ -280,8 +280,8 @@ const ENSFeatures = () => {
 
               {/* Mint Reputation Subname */}
               <div className="space-y-3">
-                <h4 className="font-medium">Mint Reputation Subname</h4>
-                <p className="text-sm text-muted-foreground">
+                <h4 className="font-medium text-white font-code">Mint Reputation Subname</h4>
+                <p className="text-sm text-white/70 font-code">
                   Create a custom subname based on your reputation (requires 100+ reputation)
                 </p>
                 <div className="flex gap-2">
@@ -309,13 +309,13 @@ const ENSFeatures = () => {
         </div>
 
         {/* Swap History */}
-        <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl mt-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+        <Card className="glass-card terminal-border hover-lift animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Hash className="w-5 h-5 text-primary" />
-              ENS Swap History
+              <Hash className="w-5 h-5 text-cyan-400" />
+              <span className="font-futuristic text-white">ENS Swap History</span>
             </CardTitle>
-            <CardDescription>Your transaction history with ENS names</CardDescription>
+            <CardDescription className="text-white/70 font-code">Your transaction history with ENS names</CardDescription>
           </CardHeader>
           <CardContent>
             {userSwaps.length > 0 ? (
@@ -323,34 +323,34 @@ const ENSFeatures = () => {
                 {userSwaps.map((swap, index) => (
                   <div 
                     key={index}
-                    className="flex items-center justify-between p-4 bg-white/30 border border-white/20 rounded-lg hover-lift"
+                    className="flex items-center justify-between p-4 bg-black/30 border border-white/20 rounded-lg hover-lift"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
                         <Hash className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <div className="font-medium">
+                        <div className="font-medium text-white">
                           {swap.amount} {swap.tokenPair}
                         </div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className="text-sm text-white/70">
                           {swap.ensName} • {new Date(swap.timestamp).toLocaleString()}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Badge variant={swap.completed ? "default" : "secondary"}>
+                      <Badge variant={swap.completed ? "default" : "secondary"} className={swap.completed ? "bg-green-500/20 text-green-400 border-green-400/50" : "bg-yellow-500/20 text-yellow-400 border-yellow-400/50"}>
                         {swap.completed ? "Completed" : "Pending"}
                       </Badge>
-                      {swap.completed && <CheckCircle className="w-4 h-4 text-green-500" />}
+                      {swap.completed && <CheckCircle className="w-4 h-4 text-green-400" />}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-center py-8">
-                <Hash className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                <p className="text-muted-foreground">
+                <Hash className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                <p className="text-white/70 font-code">
                   No ENS swaps yet. Create your first swap to see it here!
                 </p>
               </div>

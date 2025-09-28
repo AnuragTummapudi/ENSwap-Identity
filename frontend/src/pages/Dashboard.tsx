@@ -178,20 +178,20 @@ const Dashboard = () => {
                       <Wallet className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <div className="text-sm text-muted-foreground">Total Portfolio Value</div>
+                      <div className="text-sm text-white/70 font-code">Total Portfolio Value</div>
                       <div className="text-3xl font-bold">
                         {balanceVisible ? totalBalance : "••••••"}
                       </div>
-                      <div className="text-sm text-muted-foreground mt-1">
+                      <div className="text-sm text-white/60 font-code mt-1">
                         ETH Balance: {balanceVisible ? `${parseFloat(balance).toFixed(4)} ETH` : "••••"}
                       </div>
                     </div>
                   </div>
                   
                   <div className="text-right">
-                    <div className="text-sm text-muted-foreground mb-1">Wallet Address</div>
+                    <div className="text-sm text-white/70 font-code mb-1">Wallet Address</div>
                     <div className="flex items-center gap-2">
-                      <code className="text-sm bg-muted/50 px-2 py-1 rounded">
+                      <code className="text-sm bg-black/50 px-2 py-1 rounded border border-white/20 text-white/80">
                         {`${account.slice(0, 6)}...${account.slice(-4)}`}
                       </code>
                       <Button variant="ghost" size="icon" onClick={copyAddress}>
@@ -205,9 +205,9 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Wallet className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                  <h3 className="text-lg font-semibold mb-2">No Wallet Connected</h3>
-                  <p className="text-muted-foreground">
+                  <Wallet className="w-16 h-16 text-white/40 mx-auto mb-4 opacity-50" />
+                  <h3 className="text-lg font-semibold mb-2 font-futuristic text-white">No Wallet Connected</h3>
+                  <p className="text-white/70 font-code">
                     Connect your wallet to view your portfolio and transaction history.
                   </p>
                 </div>
@@ -230,11 +230,11 @@ const Dashboard = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Status</span>
-                  <Badge variant={identity ? "default" : "secondary"}>
+                  <Badge variant={identity ? "default" : "secondary"} className={identity ? "bg-green-500/20 text-green-400 border-green-400/50" : "bg-red-500/20 text-red-400 border-red-400/50"}>
                     {identity ? 'Active' : 'Inactive'}
                   </Badge>
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-white/70 font-code">
                   Transaction-specific ENS names, reputation-based subnames, and creative identity management
                 </div>
                 <Button 
@@ -260,9 +260,9 @@ const Dashboard = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Network</span>
-                  <Badge variant="outline">Hedera Testnet</Badge>
+                  <Badge variant="outline" className="bg-green-500/20 text-green-400 border-green-400/50">Hedera Testnet</Badge>
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-white/70 font-code">
                   HTS tokens, native HBAR swapping, and enhanced reputation bonuses
                 </div>
                 <Button 

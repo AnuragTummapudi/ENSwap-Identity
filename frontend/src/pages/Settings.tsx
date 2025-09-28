@@ -27,36 +27,36 @@ const SettingsPage = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 font-futuristic text-white-glow">
             Settings
           </h1>
-          <p className="text-lg text-slate-600">
+          <p className="text-lg text-white/70 font-mono-space">
             Manage your ENSwap Identity preferences and configurations
           </p>
         </div>
 
         <div className="grid gap-6">
           {/* Identity Settings */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+          <Card className="glass-card terminal-border hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-blue-600" />
-                Identity Settings
+                <Shield className="w-5 h-5 text-cyan-400" />
+                <span className="font-futuristic text-white">Identity Settings</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Manage your Web3 identity and security preferences
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {identity ? (
                 <div className="space-y-4">
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="p-4 bg-green-500/20 border border-green-400/50 rounded-lg">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-green-800">Identity Connected</h3>
-                        <p className="text-sm text-green-600">{identity.ensName}</p>
+                        <h3 className="font-semibold text-green-400 font-code">Identity Connected</h3>
+                        <p className="text-sm text-green-400/80 font-code">{identity.ensName}</p>
                       </div>
-                      <Badge className="bg-green-500/20 text-green-600 border-green-500/30">
+                      <Badge className="bg-green-500/20 text-green-400 border-green-400/50">
                         Active
                       </Badge>
                     </div>
@@ -64,92 +64,92 @@ const SettingsPage = () => {
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-sm font-medium">ENS Name</Label>
-                      <Input value={identity.ensName} disabled className="mt-1" />
+                      <Label className="text-sm font-medium text-white font-code">ENS Name</Label>
+                      <Input value={identity.ensName} disabled className="mt-1 input-glass font-code" />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium">DID Identity</Label>
-                      <Input value={identity.did} disabled className="mt-1" />
+                      <Label className="text-sm font-medium text-white font-code">DID Identity</Label>
+                      <Input value={identity.did} disabled className="mt-1 input-glass font-code" />
                     </div>
                   </div>
                   
                   <div className="flex justify-end">
-                    <Button variant="outline" onClick={disconnectWallet} className="text-red-600 border-red-200 hover:bg-red-50">
+                    <Button variant="outline" onClick={disconnectWallet} className="text-red-400 border-red-400/50 hover:bg-red-500/10 btn-secondary">
                       Disconnect Identity
                     </Button>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Shield className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-600">No identity connected</p>
-                  <p className="text-sm text-slate-500">Create an identity to access these settings</p>
+                  <Shield className="w-12 h-12 text-white/40 mx-auto mb-3 opacity-50" />
+                  <p className="text-white/70 font-code">No identity connected</p>
+                  <p className="text-sm text-white/60 font-code">Create an identity to access these settings</p>
                 </div>
               )}
             </CardContent>
           </Card>
 
           {/* API Configuration */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+          <Card className="glass-card terminal-border hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Key className="w-5 h-5 text-purple-600" />
-                API Configuration
+                <Key className="w-5 h-5 text-purple-400" />
+                <span className="font-futuristic text-white">API Configuration</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Configure API keys and external service connections
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="apiKey" className="text-sm font-medium">1inch API Key</Label>
+                <Label htmlFor="apiKey" className="text-sm font-medium text-white font-code">1inch API Key</Label>
                 <Input
                   id="apiKey"
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
-                  className="mt-1"
+                  className="mt-1 input-glass font-code"
                   type="password"
                 />
-                <p className="text-xs text-slate-500 mt-1">Used for token swap quotes and pricing</p>
+                <p className="text-xs text-white/60 mt-1 font-code">Used for token swap quotes and pricing</p>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm font-medium">Contract Address</Label>
-                  <Input value="0xEe58d185f59e01034527d95FDd85236fa245Ea9f" disabled className="mt-1" />
+                  <Label className="text-sm font-medium text-white font-code">Contract Address</Label>
+                  <Input value="0x522884a14f04b584165fB87eFebEe6a8C480d623" disabled className="mt-1 input-glass font-code" />
                 </div>
                 <div>
-                  <Label className="text-sm font-medium">Project ID</Label>
-                  <Input value="aea25227957bdbe6ba50b99b18e6a69c" disabled className="mt-1" />
+                  <Label className="text-sm font-medium text-white font-code">Project ID</Label>
+                  <Input value="aea25227957bdbe6ba50b99b18e6a69c" disabled className="mt-1 input-glass font-code" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Notification Settings */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+          <Card className="glass-card terminal-border hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bell className="w-5 h-5 text-orange-600" />
-                Notifications
+                <Bell className="w-5 h-5 text-orange-400" />
+                <span className="font-futuristic text-white">Notifications</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Configure how you receive updates and alerts
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-sm font-medium">Push Notifications</Label>
-                  <p className="text-xs text-slate-500">Get notified about transaction updates</p>
+                  <Label className="text-sm font-medium text-white font-code">Push Notifications</Label>
+                  <p className="text-xs text-white/60 font-code">Get notified about transaction updates</p>
                 </div>
                 <Switch checked={notifications} onCheckedChange={setNotifications} />
               </div>
               
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-sm font-medium">Auto Refresh</Label>
-                  <p className="text-xs text-slate-500">Automatically refresh data every 30 seconds</p>
+                  <Label className="text-sm font-medium text-white font-code">Auto Refresh</Label>
+                  <p className="text-xs text-white/60 font-code">Automatically refresh data every 30 seconds</p>
                 </div>
                 <Switch checked={autoRefresh} onCheckedChange={setAutoRefresh} />
               </div>
@@ -157,21 +157,21 @@ const SettingsPage = () => {
           </Card>
 
           {/* Appearance */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-white/30 shadow-xl">
+          <Card className="glass-card terminal-border hover-lift">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Palette className="w-5 h-5 text-pink-600" />
-                Appearance
+                <Palette className="w-5 h-5 text-pink-400" />
+                <span className="font-futuristic text-white">Appearance</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Customize the look and feel of your interface
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-sm font-medium">Dark Mode</Label>
-                  <p className="text-xs text-slate-500">Switch to dark theme</p>
+                  <Label className="text-sm font-medium text-white font-code">Dark Mode</Label>
+                  <p className="text-xs text-white/60 font-code">Switch to dark theme</p>
                 </div>
                 <Switch checked={darkMode} onCheckedChange={setDarkMode} />
               </div>
@@ -179,20 +179,20 @@ const SettingsPage = () => {
           </Card>
 
           {/* Danger Zone */}
-          <Card className="bg-white/80 backdrop-blur-sm border border-red-200 shadow-xl">
+          <Card className="glass-card terminal-border hover-lift border-red-400/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-600">
+              <CardTitle className="flex items-center gap-2 text-red-400">
                 <Trash2 className="w-5 h-5" />
-                Danger Zone
+                <span className="font-futuristic">Danger Zone</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-white/70 font-code">
                 Irreversible actions that affect your data
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                <h3 className="font-semibold text-red-800 mb-2">Clear All Data</h3>
-                <p className="text-sm text-red-600 mb-3">
+              <div className="p-4 bg-red-500/20 border border-red-400/50 rounded-lg">
+                <h3 className="font-semibold text-red-400 mb-2 font-code">Clear All Data</h3>
+                <p className="text-sm text-red-400/80 mb-3 font-code">
                   This will clear all local data, settings, and reset the application to its default state.
                 </p>
                 <Button 

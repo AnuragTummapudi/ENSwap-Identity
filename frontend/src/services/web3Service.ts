@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { getPublicClient, getWalletClient } from '@wagmi/core';
-import { CONTRACT_ADDRESS, NETWORKS, DEFAULT_NETWORK } from '@/config/constants';
+import { CONTRACT_ADDRESSES, NETWORKS, DEFAULT_NETWORK } from '@/config/constants';
 
 // Extend window interface for ethereum
 declare global {
@@ -50,7 +50,7 @@ class Web3Service {
       
       // Initialize contract
       this.contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
+        CONTRACT_ADDRESSES.ENSWAP_IDENTITY,
         CONTRACT_ABI,
         signer
       );
@@ -144,12 +144,12 @@ class Web3Service {
       const signer = await provider.getSigner();
       
       const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
+        CONTRACT_ADDRESSES.ENSWAP_IDENTITYES.ENSWAP_IDENTITY,
         CONTRACT_ABI,
         signer
       );
 
-      console.log('Creating identity with:', { ensName, did, contractAddress: CONTRACT_ADDRESS });
+      console.log('Creating identity with:', { ensName, did, contractAddress: CONTRACT_ADDRESSES.ENSWAP_IDENTITYES.ENSWAP_IDENTITY });
       
       const tx = await contract.createIdentity(ensName, did);
       console.log('Transaction sent:', tx.hash);
@@ -171,7 +171,7 @@ class Web3Service {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
+        CONTRACT_ADDRESSES.ENSWAP_IDENTITY,
         CONTRACT_ABI,
         provider
       );
@@ -220,7 +220,7 @@ class Web3Service {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
+        CONTRACT_ADDRESSES.ENSWAP_IDENTITY,
         CONTRACT_ABI,
         provider
       );
@@ -250,7 +250,7 @@ class Web3Service {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
+        CONTRACT_ADDRESSES.ENSWAP_IDENTITY,
         CONTRACT_ABI,
         provider
       );

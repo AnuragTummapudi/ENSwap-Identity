@@ -10,8 +10,12 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 
 ## 🚀 Live Demo
 
-- **Frontend**: [Deployed on Vercel/Netlify]
-- **Smart Contract**: `0xEe58d185f59e01034527d95FDd85236fa245Ea9f` (Hedera Testnet)
+- **Frontend**: https://enswap-id.vercel.app
+- **Smart Contracts**: 
+  - ENSwapIdentity: `0x522884a14f04b584165fB87eFebEe6a8C480d623`
+  - ENSSwapIntegration: `0xEd0bb47997770ea0aA03aFb7054c13fd674cA19f`
+  - HederaENSSwap: `0xCF2F43C351017d6d8fAFA1536b4048737eAB0b41`
+  - **Network**: Hedera Testnet
 - **GitHub**: https://github.com/AnuragTummapudi/ENSwap-Identity
 
 ## 🚀 Advanced Technology Integration
@@ -45,7 +49,8 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **React 18** with TypeScript
+- **React 18** with TypeScript (Web Application)
+- **Kotlin** with Android SDK (Mobile Application)
 - **Vite** for build tooling
 - **Tailwind CSS** for styling
 - **Wagmi** + **RainbowKit** for Web3 integration
@@ -83,11 +88,12 @@ ENSwap bridges the gap between decentralized identity and DeFi by creating a rep
 - Slippage protection
 - Gas optimization
 
-### 4. Modern UI/UX
-- Responsive design
-- Professional interface
-- Real-time updates
-- Mobile-friendly
+### 4. Cross-Platform Experience
+- **Web Application**: React-based responsive design
+- **Mobile Application**: Native Android app built with Kotlin
+- Professional interface across all platforms
+- Real-time updates and synchronization
+- Seamless wallet integration on mobile
 
 ## 📊 Smart Contract Architecture
 
@@ -129,8 +135,11 @@ struct Receipt {
 ## 🌐 Deployment Information
 
 - **Network**: Hedera Testnet
-- **Contract Address**: `0xEe58d185f59e01034527d95FDd85236fa245Ea9f`
-- **Deployment Date**: September 27, 2025
+- **Contract Addresses**: 
+  - ENSwapIdentity: `0x522884a14f04b584165fB87eFebEe6a8C480d623`
+  - ENSSwapIntegration: `0xEd0bb47997770ea0aA03aFb7054c13fd674cA19f`
+  - HederaENSSwap: `0xCF2F43C351017d6d8fAFA1536b4048737eAB0b41`
+- **Deployment Date**: September 28, 2025
 - **Frontend**: Hosted on modern CDN
 
 ## 📈 Impact & Use Cases
@@ -152,8 +161,9 @@ struct Receipt {
 ### Short Term
 - [ ] Ethereum Mainnet deployment
 - [ ] Additional DEX integrations
-- [ ] Mobile app development
+- [x] **Mobile app development** (Android Kotlin app completed)
 - [ ] Enhanced reputation algorithms
+- [ ] iOS mobile app development
 
 ### Long Term
 - [ ] Cross-chain identity support
@@ -169,28 +179,48 @@ struct Receipt {
 - Email: tummapudianurag@gmail.com
 - GitHub: @AnuragTummapudi
 
+**Shatadru Mukhopadhyay**
+- Frontend Developer
+- UI/UX Specialist
+- Web3 Integration Expert
+
+**Manthan Singla**
+- App Developer
+- Kotlin Expert
+- React & TypeScript Expert
+
 ## 🏅 Technical Achievements
 
 ### Core Development
 - ✅ Built complete full-stack Web3 application
+- ✅ Developed native Android mobile app with Kotlin
 - ✅ Integrated multiple protocols (1inch, ENS, Hedera)
 - ✅ Implemented secure smart contracts
-- ✅ Created modern, responsive UI
+- ✅ Created modern, responsive UI across web and mobile
 - ✅ Comprehensive testing and documentation
 
 ### Innovation Highlights
 - 🎯 Novel reputation-based trading system
 - 🎯 Identity-verified DeFi transactions
 - 🎯 Cross-protocol integration
-- 🎯 User-friendly Web3 experience
+- 🎯 Cross-platform Web3 experience (Web + Mobile)
+- 🎯 Native mobile app with seamless wallet integration
 
 ## 📱 Demo Instructions
 
+### Web Application
 1. **Connect Wallet**: Use MetaMask or WalletConnect
 2. **Create Identity**: Register ENS name and DID
 3. **View Reputation**: Check your reputation score
 4. **Perform Swap**: Execute identity-verified token swaps
 5. **Track Activity**: Monitor transaction history
+
+### Mobile Application (Android)
+1. **Install App**: Download and install the Kotlin-based Android app
+2. **Connect Wallet**: Seamless wallet integration on mobile
+3. **Create Identity**: Register ENS name using mobile interface
+4. **Mobile Swapping**: Execute token swaps with mobile-optimized UI
+5. **Cross-Platform Sync**: Data syncs between web and mobile
 
 ## 🔗 Links & Resources
 
